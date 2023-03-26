@@ -7,6 +7,12 @@ const navbar = "/plantilla/_navbar.html";
 const footer = "/plantilla/_footer.html";
 const scripts = "/plantilla/_scripts.html";
 
+// URL donde la cabecera debe ser transparente en el top
+const sitiosCabeceraTransparente = [
+  "/index.html",
+  "/tablaRestaurantesJuan.html"
+]
+
 // Cuando se carga la página, se ejecuta este script
 document.addEventListener('DOMContentLoaded', function () {
   cargarContenido();
@@ -116,7 +122,7 @@ function mainNavLoad() {
     if (!navbarCollapsible) {
       return;
     }
-    if (window.location.pathname == '/index.html') {
+    if (sitiosCabeceraTransparente.includes(window.location.pathname)) {
       navbarCollapsible.classList.add('fixed-top')
       if (window.scrollY === 0) {
         navbarCollapsible.classList.remove('navbar-shrink')
