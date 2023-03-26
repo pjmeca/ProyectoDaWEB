@@ -1,0 +1,186 @@
+@charset "UTF-8";
+header.mastheadMini{
+  padding-top: 10.5rem;
+  padding-bottom: 6rem;
+  text-align: center;
+  color: #fff;
+  background-image: url("/assets/img/calle.jpg");
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: center center;
+  background-size: cover;
+}
+header.mastheadMini .masthead-heading {
+  font-size: 3.25rem;
+  font-weight: 700;
+  line-height: 3.25rem;
+  margin-bottom: 2rem;
+  font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+.table-data__tool {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -moz-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.table-data__tool .table-data__tool-left > div {
+  margin-right: 12px;
+}
+
+.table-data__tool .table-data__tool-right > button {
+  margin-right: 12px;
+}
+
+@media (max-width: 991px) {
+  .table-data__tool {
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -webkit-flex-direction: column;
+      -moz-box-orient: vertical;
+      -moz-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column;
+  }
+
+  .table-data__tool .table-data__tool-right {
+      margin-top: 3px;
+  }
+  
+  .table-data__tool .table-data__tool-right > button {
+      margin-right: 0;
+      margin-bottom: 3px;
+  }
+}
+
+.tr-shadow {
+  -webkit-box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.03);
+  -moz-box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.03);
+  box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.03);
+}
+
+.table-data2 {
+  border-collapse: collapse;
+  overflow: visible; 
+  width: 100%;
+}
+
+.table-data2.table thead th {
+  font-size: 1rem;
+  color: #555;
+  text-transform: uppercase;
+  border: none;
+  font-weight: 600;
+  vertical-align: top;
+  padding: 15px 40px;
+  padding-right: 10px;
+  
+}
+
+.table-data2.table thead th:first-child {
+  padding-right: 0;
+}
+
+.table-data2.table tbody {
+  background: #fff;
+}
+
+
+.table-data2.table tbody tr td:first-child {
+  -webkit-border-top-left-radius: 3px;
+  -moz-border-radius-topleft: 3px;
+  border-top-left-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  border-bottom-left-radius: 3px;
+  vertical-align: top;
+}
+
+.table-data2.table tbody tr td:first-child .au-checkbox {
+  margin-top: 5px;
+}
+
+@media (max-width: 1199px) {
+  .table-data2.table tbody tr td:first-child {
+      vertical-align: middle;
+  }
+
+  .table-data2.table tbody tr td:first-child .au-checkbox {
+      margin-top: 0;
+  }
+}
+
+.table-data2.table tbody tr td:last-child {
+  -webkit-border-top-right-radius: 3px;
+  -moz-border-radius-topright: 3px;
+  border-top-right-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+  -moz-border-radius-bottomright: 3px;
+  border-bottom-right-radius: 3px;
+  padding-right: 35px;
+  
+}
+
+.table-data2.table tbody td {
+  font-size: 1rem;
+  color: #000000;
+  vertical-align: middle;
+  padding: 25px 40px;
+  padding-right: 10px;
+  border: none;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  
+}
+
+.table-data2.table tbody td.desc {
+  color: #4272d7;
+}
+
+.table-data2 .spacer {
+  height: 5px;
+  background: transparent;
+}
+
+.stars {
+  color: #e7de2f;
+}
+
+
+.selecciones{
+  
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  border-radius: 0.25rem;
+  display: flex;
+  color: #000000;
+  background-color: #0dcaf0;
+}
+
+.hueco{
+  display: flex;
+  height: 5px;
+  background: transparent;
+}
+
