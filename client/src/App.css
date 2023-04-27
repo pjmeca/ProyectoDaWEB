@@ -30,6 +30,11 @@
   .cabecera {
     height: 100px;
   }
+
+  .formulario {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
 }
 
 /* Altura de la imagen para pantallas medianas */
@@ -37,12 +42,22 @@
   .cabecera {
     height: 200px;
   }
+
+  .formulario {
+    padding-left: 15%;
+    padding-right: 15%;
+  }
 }
 
 /* Altura de la imagen para pantallas grandes */
 @media only screen and (min-width: 1500px) {
   .cabecera {
     height: 300px;
+  }
+
+  .formulario {
+    padding-left: 30%;
+    padding-right: 30%;
   }
 }
 
