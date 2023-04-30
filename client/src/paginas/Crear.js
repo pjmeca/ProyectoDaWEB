@@ -1,23 +1,38 @@
 import { useEffect, useState } from "react";
-import TablaRestaurantes from "../components/TablaRestaurantes";
+import TablaRestaurantes from "../components/Tablas/TablaRestaurantes";
 import ImagenHeader from "../components/Plantilla/ImagenHeader";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import Alert from "react-bootstrap/Alert";
 import { useHistory } from "react-router-dom";
 
 export default function Crear() {
-    const history = useHistory();
+  const history = useHistory();
 
   const [nombre, setNombre] = useState("");
   const [latitud, setLatitud] = useState("");
   const [longitud, setLongitud] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+  const [mensajeError, setMensajeError] = useState("");
 
   const handleCrear = () => {
+    if (
+      nombre.trim() === "" ||
+      latitud.trim() === "" ||
+      longitud.trim() === ""
+    ) {
+      setMensajeError("Por favor, rellena todos los campos");
+      setShowAlert(true);
+      return;
+    }
+
     const restaurante = {
       nombre: nombre,
       latitud: latitud,
       longitud: longitud,
     };
+
+    const nombreActual = nombre;
 
     fetch("/restaurantes", {
       method: "POST",
@@ -26,14 +41,15 @@ export default function Crear() {
       },
       body: JSON.stringify(restaurante),
     })
-    .then(response => {
+      .then((response) => {
         if (!response.ok) {
-          throw new Error('Error al crear el restaurante')
+          setShowAlert(true);
+          setMensajeError(`El restaurante ${nombreActual} ya existe.`);
         }
-        return response.json()
+        return response.json();
       })
-      .then(data => {
-        history.push(`/restaurantes/${data.id}`)
+      .then((data) => {
+        history.push(`/restaurantes/${data.id}`);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -46,12 +62,23 @@ export default function Crear() {
 
       <div className="cuerpo">
         <div className="formulario">
+          <Alert
+            show={showAlert}
+            variant="danger"
+            onClose={() => setShowAlert(false)}
+            dismissible
+          >
+            <Alert.Heading>Error</Alert.Heading>
+            <p>{mensajeError}</p>
+          </Alert>
+
           <Form.Group className="mb-3" controlId="nombre">
             <Form.Control
               type="text"
               placeholder="Nombre"
               value={nombre}
               onChange={(event) => setNombre(event.target.value)}
+              required
             />
           </Form.Group>
 
@@ -65,6 +92,7 @@ export default function Crear() {
               placeholder="Latitud"
               value={latitud}
               onChange={(event) => setLatitud(event.target.value)}
+              required
             />
             <Form.Text className="text-muted">
               Utiliza el punto (.) para los decimales.
@@ -81,6 +109,7 @@ export default function Crear() {
               placeholder="Longitud"
               value={longitud}
               onChange={(event) => setLongitud(event.target.value)}
+              required
             />
             <Form.Text className="text-muted">
               Utiliza el punto (.) para los decimales.

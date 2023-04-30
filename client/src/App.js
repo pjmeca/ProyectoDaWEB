@@ -1,6 +1,6 @@
 import './App.css';
 import { useEffect, useState } from 'react';
-import TablaRestaurantes from './components/TablaRestaurantes';
+import TablaRestaurantes from './components/Tablas/TablaRestaurantes';
 import Button from 'react-bootstrap/Button';
 import ImagenHeader from './components/Plantilla/ImagenHeader';
 
