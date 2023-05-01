@@ -1,6 +1,5 @@
 .cuerpo {
-  margin: 0;
-  padding: 0% 10% 0% 10%;
+  margin: 0;  
   font-family: var(--bs-body-font-family);
   font-size: var(--bs-body-font-size);
   font-weight: var(--bs-body-font-weight);
@@ -10,4 +9,24 @@
   background-color: var(--bs-body-bg);
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+@media only screen and (max-width: 800px) {
+  .cuerpo {
+    padding: 0% 10% 0% 10%;
+  }
+}
+
+/* Altura de la imagen para pantallas medianas */
+@media only screen and (min-width: 800px) and (max-width: 1500px) {
+  .cuerpo {
+    padding: 0% 15% 0% 15%;
+  }
+}
+
+/* Altura de la imagen para pantallas grandes */
+@media only screen and (min-width: 1500px) {
+  .cuerpo {
+    padding: 0% 20% 0% 20%;
+  }
 }
