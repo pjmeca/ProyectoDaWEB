@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 const API_ARSO = "http://localhost:8090";
 
 let token =
-  "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIwNTBkZWUyOS02YmQ4LTQwNmYtODEzOS01Zjc1OTM1ZTY4ODgiLCJpc3MiOiJQYXNhcmVsYSBadXVsIiwiZXhwIjoxNjgyOTMwMTI3LCJzdWIiOiJwam1lY2EiLCJ1c3VhcmlvIjoicGJsbWVjYUBnbWFpbC5jb20iLCJyb2wiOiJHRVNUT1IifQ.XOsVcy_twuJSSj8YdFh7O7Z2JVxnVZGrcx2pGcllSTk";
+  "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIzYjYzY2U5Yy1mMGVkLTQ3MzktYWM0My1lNTljZjk1ZTkyOWUiLCJpc3MiOiJQYXNhcmVsYSBadXVsIiwiZXhwIjoxNjgzMDE3NTU5LCJzdWIiOiJwam1lY2EiLCJ1c3VhcmlvIjoicGJsbWVjYUBnbWFpbC5jb20iLCJyb2wiOiJHRVNUT1IifQ.ERcX3QzOqjK4fv9orDvSkzL3SvA74CV2oTYKJbGZV3M";
 
 // This displays message that the server running and listening to specified port
 app.listen(port, () => console.log(`Listening on port ${port}`));
@@ -77,11 +77,11 @@ app.get("/restaurantes/:id", (req, res) => {
   fetch(API_ARSO + `/restaurantes/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
-    },
+    }    
   })
     .then((response) => {
 
-      if(response.status != 200) {
+      if(!response.ok) {
         res.status(500)
         return "Error al obtener los datos de la API";
       }
@@ -91,6 +91,27 @@ app.get("/restaurantes/:id", (req, res) => {
     .then((data) => {
       res.send(data);
     })
+    .catch((error) => {
+      res.status(500).send("Error al obtener los datos de la API");
+    });
+});
+
+app.delete("/restaurantes/:id", (req, res) => {
+  const id = req.params.id;
+  fetch(API_ARSO + `/restaurantes/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    method : "DELETE"
+  })
+    .then((response) => {
+
+      if(!response.ok) {
+        res.status(500)
+        return "Error al obtener los datos de la API";
+      }
+    })
+    .then(res.status(204).send())
     .catch((error) => {
       res.status(500).send("Error al obtener los datos de la API");
     });
