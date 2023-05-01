@@ -24,8 +24,7 @@
   text-shadow: 3px 3px 8px #000000bc;
 }
 
-
-/* Altura de la imagen para pantallas pequeñas */
+/* Pantallas pequeñas */
 @media only screen and (max-width: 800px) {
   .cabecera {
     height: 100px;
@@ -37,7 +36,7 @@
   }
 }
 
-/* Altura de la imagen para pantallas medianas */
+/* Pantallas medianas */
 @media only screen and (min-width: 800px) and (max-width: 1500px) {
   .cabecera {
     height: 200px;
@@ -49,7 +48,7 @@
   }
 }
 
-/* Altura de la imagen para pantallas grandes */
+/* Pantallas grandes */
 @media only screen and (min-width: 1500px) {
   .cabecera {
     height: 300px;
