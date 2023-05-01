@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import TablaRestaurantes from "../components/Tablas/TablaRestaurantes";
+import { useState } from "react";
 import ImagenHeader from "../components/Plantilla/ImagenHeader";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 import { useHistory } from "react-router-dom";
+import { GetJWT } from "../utils/JWT";
 
 export default function Crear() {
   const history = useHistory();
@@ -38,6 +38,7 @@ export default function Crear() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authentication": `Bearer ${GetJWT()}`,
       },
       body: JSON.stringify(restaurante),
     })

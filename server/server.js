@@ -10,25 +10,19 @@ app.use(bodyParser.json());
 
 const API_ARSO = "http://localhost:8090";
 
-let token =
-  "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIzYjYzY2U5Yy1mMGVkLTQ3MzktYWM0My1lNTljZjk1ZTkyOWUiLCJpc3MiOiJQYXNhcmVsYSBadXVsIiwiZXhwIjoxNjgzMDE3NTU5LCJzdWIiOiJwam1lY2EiLCJ1c3VhcmlvIjoicGJsbWVjYUBnbWFpbC5jb20iLCJyb2wiOiJHRVNUT1IifQ.ERcX3QzOqjK4fv9orDvSkzL3SvA74CV2oTYKJbGZV3M";
-
 // This displays message that the server running and listening to specified port
 app.listen(port, () => console.log(`Listening on port ${port}`));
-
-// create a GET route
-app.get("/prueba", (req, res) => {
-  res.send({ express: "YOUR EXPRESS BACKEND IS CONNECTED TO REACT" });
-});
 
 app.get("/restaurantes", (req, res) => {
   fetch(API_ARSO + "/restaurantes", {
     headers: {
-      Authorization: `Bearer ${token}`,
-    },
+      Authorization: `${req.headers['authentication']}`
+    }
   })
     .then((response) => response.text())
     .then((data) => {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate'); // HTTP 1.1
+      res.setHeader('Expires', '0'); // HTTP 1.0
       res.send(data);
     })
     .catch((error) => {
@@ -50,20 +44,22 @@ app.post('/restaurantes', (req, res) => {
     const rawResponse = await fetch(API_ARSO+"/restaurantes", {
       method: 'POST',
       headers: {
-        Authorization : `Bearer ${token}`,
+        Authorization : `${req.headers['authentication']}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(req.body)
     });
     const response = await rawResponse;
-
-    if (response.status === 201) {
+    
+    if (response.ok) {
       const location = response.headers.get('location');
       const id = location.split('/').pop();
       console.log(id);
 
       // responder con una respuesta de éxito
       const jsonResponse = { id: id };
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate'); // HTTP 1.1
+      res.setHeader('Expires', '0');
       res.status(200).json(jsonResponse); // envía el id del restaurante como JSON
     } else {
       // responder con un error
@@ -76,7 +72,7 @@ app.get("/restaurantes/:id", (req, res) => {
   const id = req.params.id;
   fetch(API_ARSO + `/restaurantes/${id}`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `${req.headers['authentication']}`,
     }    
   })
     .then((response) => {
@@ -89,6 +85,8 @@ app.get("/restaurantes/:id", (req, res) => {
       return response.text()
     })
     .then((data) => {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate'); // HTTP 1.1
+      res.setHeader('Expires', '0'); // HTTP 1.0
       res.send(data);
     })
     .catch((error) => {
@@ -100,7 +98,7 @@ app.delete("/restaurantes/:id", (req, res) => {
   const id = req.params.id;
   fetch(API_ARSO + `/restaurantes/${id}`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `${req.headers['authentication']}`,
     },
     method : "DELETE"
   })
@@ -112,6 +110,32 @@ app.delete("/restaurantes/:id", (req, res) => {
       }
     })
     .then(res.status(204).send())
+    .catch((error) => {
+      res.status(500).send("Error al obtener los datos de la API");
+    });
+});
+
+app.get("/opiniones/:id", (req, res) => {
+  const id = req.params.id;
+  fetch(API_ARSO + `/opiniones/${id}`, {
+    headers: {
+      Authorization: `${req.headers['authentication']}`,
+    }    
+  })
+    .then((response) => {
+
+      if(!response.ok) {
+        res.status(500)
+        return "Error al obtener los datos de la API";
+      }
+
+      return response.text()
+    })
+    .then((data) => {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate'); // HTTP 1.1
+      res.setHeader('Expires', '0'); // HTTP 1.0
+      res.send(data);
+    })
     .catch((error) => {
       res.status(500).send("Error al obtener los datos de la API");
     });

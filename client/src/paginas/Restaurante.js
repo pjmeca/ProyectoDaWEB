@@ -4,9 +4,10 @@ import TablaPlatos from "../components/Tablas/TablaPlatos";
 import TablaSitiosTuristicos from "../components/Tablas/TablaSitiosTuristicos";
 import Estrellas from "../components/Estrellas";
 import Button from 'react-bootstrap/Button';
-import Dialogo from "../components/Dialogo";
+import Dialogo from "../components/Dialogos/Dialogo";
 import Alert from "react-bootstrap/Alert";
 import { useHistory } from 'react-router-dom';
+import { GetJWT } from '../utils/JWT';
 
 export default function Restaurante({ id }) {
   const [notFound, setNotFound] = useState(false);
@@ -18,17 +19,22 @@ export default function Restaurante({ id }) {
   const history = useHistory();
 
   useEffect(() => {
-    fetch(`/restaurantes/${id}`)
+    fetch(`/restaurantes/${id}`, {
+      headers: {
+        "Authentication": `Bearer ${GetJWT()}`,
+      }
+    })
       .then((response) => {
 
         if(response.status != 200) {
           setNotFound(true)
           return ""
         }
-          
+
         return response.json()
       })
       .then((data) => {
+        console.log(data)
         setBackendData(data);
       });
   }, []);
@@ -39,6 +45,7 @@ export default function Restaurante({ id }) {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        "Authentication": `Bearer ${GetJWT()}`,
       }
     })
       .then((response) => {
@@ -93,8 +100,15 @@ export default function Restaurante({ id }) {
             />
             <TablaPlatos platos={backendData.platos} />
 
-            <div style={{textAlign: "right"}}>
+            <div style={{ display: "grid" }}>
+
+            <div style={{ gridColumn: 1, textAlign: "left" }}>
+                <Button variant="primary" onClick={() => {history.push(`/opiniones/${backendData.opinion}`)}}>Ver Opiniones</Button>
+            </div>
+
+            <div style={{ gridColumn: 2, textAlign: "right" }}>
                 <Button variant="danger" onClick={() => setModalShow(true)}>Eliminar</Button>
+            </div>
             </div>
 
             <Dialogo 

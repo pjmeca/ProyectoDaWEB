@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 
-export default function Estrellas({ calificacion }) {
+export default function Estrellas({ calificacion, text, style }) {
   const numEstrellas = 5;
   let calificacionEntera = parseInt(calificacion)
   let decimal=calificacion-calificacionEntera;
@@ -29,5 +29,5 @@ export default function Estrellas({ calificacion }) {
     estrellas.push(<FontAwesomeIcon icon="fa-regular fa-star" key={i}/>);
   }
 
-  return <>{estrellas}</>;
+  return <span style={style}>{estrellas} {text ? " " + text : ""}</span>;
 }

@@ -1,13 +1,21 @@
 import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import Button from 'react-bootstrap/Button';
+import { GetJWT } from '../../utils/JWT';
 
 export default function TablaRestaurantes() {
   const [backendData, setBackendData] = useState([]);
 
   useEffect(() => {
-    fetch("/restaurantes")
-      .then((response) => response.json())
+    fetch("/restaurantes", {
+      headers: {
+        "Authentication": `Bearer ${GetJWT()}`,
+      }
+    })
+      .then((response) => {
+        console.log(response)
+        return response.json()
+      })
       .then((data) => {
         setBackendData(data);
         console.log(data);
