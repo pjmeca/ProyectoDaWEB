@@ -15,11 +15,12 @@ export default function TablaRestaurantes() {
   }, []);
 
   function ContenidoTabla() {
+
     return backendData.restaurantes.map((restaurante, i) => (
       <tr key={i}>
         <th>{i}</th>
         <th>{restaurante.resumen.nombre}</th>
-        <th><Button variant="primary" href={restaurante.url}>Ir</Button>{" "}</th>
+        <th><Button variant="primary" href={"/restaurantes/"+restaurante.url.split('/').pop()}>Ir</Button></th>
       </tr>
     ));
   }
