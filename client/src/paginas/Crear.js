@@ -38,7 +38,7 @@ export default function Crear() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authentication": `Bearer ${GetJWT()}`,
+        Authentication: `Bearer ${GetJWT()}`,
       },
       body: JSON.stringify(restaurante),
     })
@@ -53,6 +53,8 @@ export default function Crear() {
         history.push(`/restaurantes/${data.id}`);
       })
       .catch((error) => {
+        setShowAlert(true);
+        setMensajeError(`Error al crear el restaurante ${nombreActual}.`);
         console.error("Error:", error);
       });
   };
