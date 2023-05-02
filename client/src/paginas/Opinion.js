@@ -5,6 +5,7 @@ import TablaValoraciones from "../components/Tablas/TablaValoraciones";
 import Button from "react-bootstrap/esm/Button";
 import DialogoOpinar from "../components/Dialogos/DialogoOpinar";
 import { GetJWT } from "../utils/JWT";
+import Error404 from "../components/Error404"; 
 
 export default function Opinion({ id }) {
   const [backendData, setBackendData] = useState([]);
@@ -22,8 +23,7 @@ export default function Opinion({ id }) {
           setNotFound(true);
           return "";
         }
-
-        return response.json();
+        return response.json()
       })
       .then((data) => {
         console.log(data);
@@ -35,7 +35,7 @@ export default function Opinion({ id }) {
     <div className="App">
       {typeof backendData === "undefined" || notFound ? (
         <div className="cuerpo">
-          <p>404</p>
+          <Error404 />
         </div>
       ) : (
         <>
@@ -59,6 +59,7 @@ export default function Opinion({ id }) {
             <DialogoOpinar 
                 show={modalShow}
                 onHide={() => setModalShow(false)}
+                id= {id}
             />
           </div>
         </>

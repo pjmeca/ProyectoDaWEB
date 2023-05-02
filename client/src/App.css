@@ -1,9 +1,10 @@
-.rojo {
-  background-color: red;
+.espacio {
+  padding-top: 1cm;
 }
 
-.verde {
-  background-color: green;
+.titulo-error {
+  font-size: 10rem;
+  padding-top: 3%;
 }
 
 .cabecera {
@@ -22,6 +23,11 @@
   font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   color: white;
   text-shadow: 3px 3px 8px #000000bc;
+}
+
+.imagen {
+  height: auto;
+  width: 100%;
 }
 
 /* Pantallas pequeñas */
@@ -68,4 +74,9 @@
 .logo {
   width: 8rem;
   height: auto;
+}
+
+.scrolleable {
+  max-height: 30rem;
+  overflow-y: auto;
 }

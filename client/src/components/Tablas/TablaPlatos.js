@@ -19,6 +19,7 @@ export default function TablaPlatos({platos}) {
       ) : (
         <>
         <h3>Platos</h3>
+        <div className="scrolleable">
         <Table striped responsive="xl">
           <thead>
             <tr>
@@ -29,6 +30,7 @@ export default function TablaPlatos({platos}) {
           </thead>
           <tbody>{ContenidoTabla()}</tbody>
         </Table>
+        </div>
         </>
       )}
     </div>
