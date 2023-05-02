@@ -5,7 +5,7 @@ export default function TablaValoraciones({ valoraciones }) {
   console.log(valoraciones);
 
   function ContenidoTabla() {
-    return valoraciones.map((valoracion, i) => (
+    return valoraciones.reverse().map((valoracion, i) => (
       <ListGroup.Item key={i} style={{ textAlign: "left" }}>
         <Estrellas calificacion={valoracion.calificacion} />
 
@@ -20,10 +20,12 @@ export default function TablaValoraciones({ valoraciones }) {
 
   return (
     <div>
-      {typeof valoraciones === "undefined" || valoraciones.length == 0 ? (
+      {typeof valoraciones === "undefined" ? (
         <>404</>
       ) : (
-        <ListGroup variant="flush">{ContenidoTabla()}</ListGroup>
+        valoraciones.length == 0 ? 
+          (<p>No hay valoraciones</p>) : 
+          (<div className="scrolleable"><ListGroup variant="flush">{ContenidoTabla()}</ListGroup></div>)  
       )}
     </div>
   );
