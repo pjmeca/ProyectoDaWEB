@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import jwt_decode from 'jwt-decode';
 
 export function GetJWT() {
     
@@ -16,4 +17,9 @@ export function logout() {
 
 export function isLogin() {
     return Cookies.get("jwt")!= undefined;
+}
+
+export function GetCorreo() {
+    const decoded = jwt_decode(GetJWT()); 
+ 	return decoded.usuario
 }
