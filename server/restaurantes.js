@@ -4,7 +4,9 @@ module.exports = {
   getRestaurantes,
   postRestaurantes,
   getRestaurante,
+  putRestaurante,
   deleteRestaurante,
+  getSitiosProximos,
 };
 
 function getRestaurantes(req, res) {
@@ -34,8 +36,9 @@ function postRestaurantes(req, res) {
   console.log("Latitud:", latitud);
   console.log("Longitud:", longitud);
 
+  // Crear el restaurante
   (async () => {
-    const rawResponse = await fetch(constantes.API_ARSO + "/restaurantes", {
+    const rawResponse = await fetch(`${constantes.API_ARSO}/restaurantes/`, {
       method: "POST",
       headers: {
         Authorization: `${req.headers["authentication"]}`,
@@ -58,6 +61,30 @@ function postRestaurantes(req, res) {
     } else {
       // responder con un error
       res.status(500).send("Error al crear el restaurante");
+    }
+  })();
+}
+
+function putRestaurante(req, res) {
+  console.log(req.body);
+
+  // Crear el restaurante
+  (async () => {
+    const rawResponse = await fetch(`${constantes.API_ARSO}/restaurantes/${req.params.id}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `${req.headers["authentication"]}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(req.body),
+    });
+    const response = await rawResponse;
+
+    if (response.ok) {
+      res.status(204).send(); 
+    } else {
+      // responder con un error
+      res.status(500).send("Error al modificar el restaurante");
     }
   })();
 }
@@ -105,4 +132,28 @@ function deleteRestaurante(req, res) {
     .catch((error) => {
       res.status(500).send("Error al obtener los datos de la API");
     });
+}
+
+function getSitiosProximos(req, res) {
+  const id = req.params.id;
+  fetch(`${constantes.API_ARSO}/restaurantes/${id}/sitiosProximos`, {
+    headers: {
+      Authorization: `${req.headers["authentication"]}`,
+    }
+  })
+  .then((response) => {
+    if (!response.ok) {
+      res.status(500);
+      return "Error al obtener los datos de la API";
+    }
+    return response.json()
+  })
+  .then((data) => {
+    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
+    res.setHeader("Expires", "0"); // HTTP 1.0
+    res.send(data);
+  })
+  .catch(() => {
+    res.status(500).send("Error al obtener los datos de la API");
+  });
 }
