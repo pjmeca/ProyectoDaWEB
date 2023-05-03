@@ -64,7 +64,7 @@ export default function Crear() {
       <ImagenHeader titulo="Crear un restaurante" />
 
       <div className="cuerpo">
-        <div className="formulario">
+        <Form className="formulario">
           <Alert
             show={showAlert}
             variant="danger"
@@ -118,7 +118,7 @@ export default function Crear() {
               Utiliza el punto (.) para los decimales.
             </Form.Text>
           </Form.Group>
-        </div>
+        </Form>
         <Button variant="primary" type="submit" onClick={handleCrear}>
           Crear
         </Button>
