@@ -102,13 +102,17 @@ export default function Restaurante({ id }) {
 
             <div style={{ display: "grid" }}>
 
-            <div style={{ gridColumn: 1, textAlign: "left" }}>
-                <Button variant="primary" onClick={() => {history.push(`/opiniones/${backendData.opinion}`)}}>Ver Opiniones</Button>
-            </div>
+              <div style={{ gridColumn: 1, textAlign: "left" }}>
+                  <Button variant="primary" onClick={() => {history.push(`/opiniones/${backendData.opinion}`)}}>Ver Opiniones</Button>
+              </div>
 
-            <div style={{ gridColumn: 2, textAlign: "right" }}>
-                <Button variant="danger" onClick={() => setModalShow(true)}>Eliminar</Button>
-            </div>
+              <div style={{ gridColumn: 2, textAlign: "right" }}>
+                  <Button variant="primary" onClick={() => {history.push(`/restaurantes/${id}/modificar`)}}>Modificar</Button>
+              </div>
+
+              <div style={{ gridColumn: 3, textAlign: "right" }}>
+                  <Button variant="danger" onClick={() => setModalShow(true)}>Eliminar</Button>
+              </div>
             </div>
 
             <Dialogo 
