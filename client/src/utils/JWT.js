@@ -23,3 +23,18 @@ export function GetCorreo() {
     const decoded = jwt_decode(GetJWT()); 
  	return decoded.usuario
 }
+
+export function GetRol() {
+    const decoded = jwt_decode(GetJWT()); 
+ 	return decoded.rol
+}
+
+export function IsGestor() {
+    return isLogin() && GetRol() === "GESTOR"
+}
+
+export function IsAllowed(idGestor) {
+    console.log(GetCorreo())
+    console.log(idGestor)
+    return IsLogin() && IsGestor() && (GetCorreo() == idGestor)
+}

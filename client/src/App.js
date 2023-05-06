@@ -2,7 +2,7 @@ import './App.css';
 import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import ImagenHeader from './components/Plantilla/ImagenHeader';
-import { isLogin } from './utils/JWT';
+import { IsGestor, isLogin } from './utils/JWT';
 import TablaRestaurantes from './components/Tablas/TablaRestaurantes';
 
 export default function App() {
@@ -15,8 +15,13 @@ export default function App() {
 
         {isLogin() ? 
           <>
-            <Button variant="primary" href='./crear'>Crear</Button>
-            <div className='espacio'></div>
+            {IsGestor() ? 
+              <>
+                <Button variant="primary" href='./crear'>Crear</Button>
+                <div className='espacio'></div>
+              </>
+            : null}            
+            
             <TablaRestaurantes />
           </>
         : 

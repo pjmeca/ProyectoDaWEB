@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
 import Dialogo from "../components/Dialogos/Dialogo";
 import Alert from "react-bootstrap/Alert";
 import { useHistory } from 'react-router-dom';
-import { GetJWT } from '../utils/JWT';
+import { GetJWT, IsAllowed } from '../utils/JWT';
 import { Spinner } from "react-bootstrap";
 import Error404 from "../components/Error404";
 
@@ -69,9 +69,9 @@ export default function Restaurante({ id }) {
     <div className="App">
 
       {!dataLoaded ?
-        ( <div class="screen-centered">
+        ( <div className="screen-centered">
             <Spinner animation="border" role="status">
-              <span class="visually-hidden">Loading...</span>
+              <span className="visually-hidden">Loading...</span>
             </Spinner>
           </div>
       )
@@ -121,14 +121,20 @@ export default function Restaurante({ id }) {
                   <Button variant="primary" onClick={() => {history.push(`/opiniones/${backendData.opinion}`)}}>Ver Opiniones</Button>
               </div>
 
-              <div style={{ gridColumn: 2, textAlign: "right" }}>
-                  <Button variant="primary" onClick={() => {history.push(`/restaurantes/${id}/modificar`)}}>Modificar</Button>
-              </div>
+              { IsAllowed(backendData.idGestor) ? (
+                <>
+                  <div style={{ gridColumn: 2, textAlign: "right" }}>
+                      <Button variant="primary" onClick={() => {history.push(`/restaurantes/${id}/modificar`)}}>Modificar</Button>
+                  </div>
 
-              <div style={{ gridColumn: 3, textAlign: "right" }}>
-                  <Button variant="danger" onClick={() => setModalShow(true)}>Eliminar</Button>
+                  <div style={{ gridColumn: 3, textAlign: "right" }}>
+                      <Button variant="danger" onClick={() => setModalShow(true)}>Eliminar</Button>
+                  </div>
+                
+                </>
+              ): null}
+
               </div>
-            </div>
 
             <Dialogo 
                 show={modalShow}

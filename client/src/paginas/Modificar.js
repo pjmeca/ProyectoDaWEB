@@ -7,7 +7,7 @@ import Button from "react-bootstrap/Button";
 import Dialogo from "../components/Dialogos/Dialogo";
 import Alert from "react-bootstrap/Alert";
 import { useHistory } from "react-router-dom";
-import { GetJWT } from "../utils/JWT";
+import { GetJWT, IsAllowed } from "../utils/JWT";
 import FormGroup from "react-bootstrap/esm/FormGroup";
 import Form from "react-bootstrap/Form";
 import { Spinner } from "react-bootstrap";
@@ -142,15 +142,15 @@ export default function Modificar({ id }) {
     <div className="App">
 
       {!dataLoaded ?
-        ( <div class="screen-centered">
+        ( <div classname="screen-centered">
             <Spinner animation="border" role="status">
-              <span class="visually-hidden">Loading...</span>
+              <span className="visually-hidden">Loading...</span>
             </Spinner>
           </div>
       )
       : (
         <>
-        {(typeof backendData === "undefined" || notFound) ? 
+        {(typeof backendData === "undefined" || notFound || !IsAllowed(backendData.idGestor)) ? 
           <div className="cuerpo">
             <Error404 />
           </div>

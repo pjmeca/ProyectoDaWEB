@@ -38,9 +38,9 @@ export default function Opinion({ id }) {
     <div className="App">
 
       {!dataLoaded ?
-        ( <div class="screen-centered">
+        ( <div className="screen-centered">
             <Spinner animation="border" role="status">
-              <span class="visually-hidden">Loading...</span>
+              <span className="visually-hidden">Loading...</span>
             </Spinner>
           </div>
       )
