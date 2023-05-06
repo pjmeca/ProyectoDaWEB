@@ -209,6 +209,10 @@ export default function Modificar({ id }) {
             idRestaurante={id}
             onSeleccionadosChange={handleSitiosTuristicosUpdate}
         />
+
+        <div className="espacio" />
+        <TablaPlatos platos={backendData.platos} idRestaurante={id} editable={true}/>
+
       </div>
     </div>
   );

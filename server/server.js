@@ -12,13 +12,16 @@ app.use(bodyParser.json());
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
 // Restaurantes
-const { getRestaurantes,postRestaurantes , getRestaurante, putRestaurante, deleteRestaurante, getSitiosProximos } = require('./restaurantes');
+const { getRestaurantes,postRestaurantes , getRestaurante, putRestaurante, deleteRestaurante, getSitiosProximos, postPlato, putPlato, deletePlato } = require('./restaurantes');
 app.get("/restaurantes", getRestaurantes);
 app.post('/restaurantes', postRestaurantes);
 app.get("/restaurantes/:id", getRestaurante);
 app.put("/restaurantes/:id", putRestaurante);
 app.delete("/restaurantes/:id", deleteRestaurante);
 app.get("/restaurantes/:id/sitiosProximos", getSitiosProximos);
+app.post("/restaurantes/:id/plato", postPlato);
+app.put("/restaurantes/:id/plato", putPlato);
+app.delete("/restaurantes/:id/plato", deletePlato);
 
 // Opiniones
 const { getOpinion, putOpinion } = require('./opiniones')

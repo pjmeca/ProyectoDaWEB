@@ -7,6 +7,9 @@ module.exports = {
   putRestaurante,
   deleteRestaurante,
   getSitiosProximos,
+  postPlato,
+  putPlato,  
+  deletePlato
 };
 
 function getRestaurantes(req, res) {
@@ -98,7 +101,7 @@ function getRestaurante(req, res) {
   })
     .then((response) => {
       if (!response.ok) {
-        res.status(500);
+        res.status(500).send();
         return "Error al obtener los datos de la API";
       }
 
@@ -124,7 +127,7 @@ function deleteRestaurante(req, res) {
   })
     .then((response) => {
       if (!response.ok) {
-        res.status(500);
+        res.status(500).send();
         return "Error al obtener los datos de la API";
       }
     })
@@ -143,7 +146,7 @@ function getSitiosProximos(req, res) {
   })
   .then((response) => {
     if (!response.ok) {
-      res.status(500);
+      res.status(500).send();
       return "Error al obtener los datos de la API";
     }
     return response.json()
@@ -156,4 +159,73 @@ function getSitiosProximos(req, res) {
   .catch(() => {
     res.status(500).send("Error al obtener los datos de la API");
   });
+}
+
+function postPlato(req, res) {
+  console.log(req.body);
+  const id = req.params.id;
+  fetch(`${constantes.API_ARSO}/restaurantes/${id}/plato`, {
+    headers: {
+      Authorization: `${req.headers["authentication"]}`,      
+      "Content-Type": "application/json",
+    },
+    method: "POST",
+    body: JSON.stringify(req.body),
+  })
+  .then((response) => {
+    if (!response.ok) {
+      res.status(500);
+      return "Error al obtener los datos de la API";
+    }
+    res.status(204).send();
+  })
+  .catch(() => {
+    res.status(500).send("Error al obtener los datos de la API");
+  });
+}
+
+function putPlato(req, res) {
+  console.log(req.body);
+  const id = req.params.id;
+  fetch(`${constantes.API_ARSO}/restaurantes/${id}/plato`, {
+    headers: {
+      Authorization: `${req.headers["authentication"]}`,      
+      "Content-Type": "application/json",
+    },
+    method: "PUT",
+    body: JSON.stringify(req.body),
+  })
+  .then((response) => {
+    if (!response.ok) {
+      res.status(500).send();
+      return "Error al obtener los datos de la API";
+    }
+    res.status(204).send();
+  })
+  .catch(() => {
+    res.status(500).send("Error al obtener los datos de la API");
+  });
+}
+
+function deletePlato(req, res) {
+  console.log(req.body);
+  const id = req.params.id;
+  fetch(constantes.API_ARSO + `/restaurantes/${id}/plato`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `${req.headers["authentication"]}`,
+    },
+    method: "DELETE",
+    body: req.body.valor
+  })
+    .then((response) => {
+      if (!response.ok) {
+        res.status(500).send();
+        return "Error al obtener los datos de la API";
+      }
+      res.status(204).send()
+    })
+    .catch((error) => {
+      res.status(500).send("Error al obtener los datos de la API");
+    });
 }

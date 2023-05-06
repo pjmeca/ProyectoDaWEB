@@ -80,3 +80,23 @@
   max-height: 30rem;
   overflow-y: auto;
 }
+
+button.edicion {
+  font-size: larger;
+  padding: 0;
+  padding-left: 10%;
+  padding-right: 10%;
+  color: black;
+}
+
+button.eliminar:hover {
+  color: red;
+}
+
+.inline-r {
+  text-align: right;
+}
+
+th {
+  vertical-align: middle;
+}
