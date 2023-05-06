@@ -2,7 +2,7 @@ import './App.css';
 import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import ImagenHeader from './components/Plantilla/ImagenHeader';
-import { IsGestor, isLogin } from './utils/JWT';
+import { IsGestor, IsLogin } from './utils/JWT';
 import TablaRestaurantes from './components/Tablas/TablaRestaurantes';
 
 export default function App() {
@@ -13,7 +13,7 @@ export default function App() {
       
       <div className='cuerpo'>        
 
-        {isLogin() ? 
+        {IsLogin() ? 
           <>
             {IsGestor() ? 
               <>

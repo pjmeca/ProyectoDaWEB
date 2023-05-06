@@ -4,7 +4,7 @@ import jwt_decode from 'jwt-decode';
 export function GetJWT() {
     
     let jwt = Cookies.get('jwt')
-    console.log("JWT: " + jwt + " tipo: " + typeof(jwt))
+    //console.log("JWT: " + jwt + " tipo: " + typeof(jwt))
 
     return jwt;
 }
@@ -15,8 +15,8 @@ export function logout() {
     return null
 }
 
-export function isLogin() {
-    return Cookies.get("jwt")!= undefined;
+export function IsLogin() {
+    return Cookies.get("jwt") != undefined;
 }
 
 export function GetCorreo() {
@@ -30,11 +30,9 @@ export function GetRol() {
 }
 
 export function IsGestor() {
-    return isLogin() && GetRol() === "GESTOR"
+    return IsLogin() && GetRol() === "GESTOR"
 }
 
 export function IsAllowed(idGestor) {
-    console.log(GetCorreo())
-    console.log(idGestor)
     return IsLogin() && IsGestor() && (GetCorreo() == idGestor)
 }

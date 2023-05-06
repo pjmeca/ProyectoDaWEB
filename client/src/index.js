@@ -11,7 +11,7 @@ import Navegacion from './components/Plantilla/Navegacion';
 import Footer from './components/Plantilla/Footer';
 import AbsoluteRedirect from './utils/AbsoluteRedirect';
 import RedirectTo from './utils/RedirectTo';
-import { isLogin } from './utils/JWT';
+import { IsLogin } from './utils/JWT';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import Error404 from './components/Error404';
 import Modificar from './paginas/Modificar';
@@ -22,7 +22,7 @@ root.render(
         <Navegacion />
 
         <BrowserRouter>
-        {!isLogin() ?
+        {!IsLogin() ?
         (
             <Switch>
                 <Route exact path='/' component={App}></Route>

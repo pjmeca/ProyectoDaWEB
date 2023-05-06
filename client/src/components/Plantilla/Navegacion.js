@@ -1,7 +1,7 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { isLogin, logout } from '../../utils/JWT';
+import { IsLogin, logout } from '../../utils/JWT';
 
 export default function Navegacion() {
 
@@ -18,7 +18,7 @@ export default function Navegacion() {
           <Nav className="navegacion">
             <Nav.Link href="/restaurantes">Restaurantes</Nav.Link>
 
-            {!isLogin() ? 
+            {!IsLogin() ? 
               <Nav.Link href="/login">Iniciar sesión</Nav.Link>
               :
               <Nav.Link onClick={handleCerrarSesion}>Cerrar sesión</Nav.Link>
