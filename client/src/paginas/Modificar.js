@@ -11,6 +11,7 @@ import { GetJWT } from "../utils/JWT";
 import FormGroup from "react-bootstrap/esm/FormGroup";
 import Form from "react-bootstrap/Form";
 import { Spinner } from "react-bootstrap";
+import Error404 from "../components/Error404";
 
 export default function Modificar({ id }) {
 
@@ -147,86 +148,93 @@ export default function Modificar({ id }) {
             </Spinner>
           </div>
       )
-      : (<>
+      : (
+        <>
+        {(typeof backendData === "undefined" || notFound) ? 
+          <div className="cuerpo">
+            <Error404 />
+          </div>
+        : (<>
 
-      <ImagenHeader titulo={`Modificar ${backendData.nombre}`} />
+        <ImagenHeader titulo={`Modificar ${backendData.nombre}`} />
 
-      <div className="cuerpo">
-        <h3>Detalles</h3>
+        <div className="cuerpo">
+          <h3>Detalles</h3>
 
-        <Form className="formulario">
-          <Alert
-            show={showAlert}
-            variant="danger"
-            onClose={() => setShowAlert(false)}
-            dismissible
-          >
-            <Alert.Heading>Error</Alert.Heading>
-            <p>{mensajeError}</p>
-          </Alert>
+          <Form className="formulario">
+            <Alert
+              show={showAlert}
+              variant="danger"
+              onClose={() => setShowAlert(false)}
+              dismissible
+            >
+              <Alert.Heading>Error</Alert.Heading>
+              <p>{mensajeError}</p>
+            </Alert>
 
-          <Form.Group className="mb-3" controlId="nombre">
-            <Form.Control
-              type="text"
-              placeholder="Nombre"
-              value={nombre}
-              onChange={(event) => setNombre(event.target.value)}
-              required
-            />
-          </Form.Group>
+            <Form.Group className="mb-3" controlId="nombre">
+              <Form.Control
+                type="text"
+                placeholder="Nombre"
+                value={nombre}
+                onChange={(event) => setNombre(event.target.value)}
+                required
+              />
+            </Form.Group>
 
-          <Form.Group
-            className="mb-3 mr-3"
-            controlId="latitud"
-            style={{ gridColumn: "1" }}
-          >
-            <Form.Control
-              type="number"
-              placeholder="Latitud"
-              value={latitud}
-              onChange={(event) => setLatitud(event.target.value)}
-              required
-            />
-            <Form.Text className="text-muted">
-              Utiliza el punto (.) para los decimales.
-            </Form.Text>
-          </Form.Group>
+            <Form.Group
+              className="mb-3 mr-3"
+              controlId="latitud"
+              style={{ gridColumn: "1" }}
+            >
+              <Form.Control
+                type="number"
+                placeholder="Latitud"
+                value={latitud}
+                onChange={(event) => setLatitud(event.target.value)}
+                required
+              />
+              <Form.Text className="text-muted">
+                Utiliza el punto (.) para los decimales.
+              </Form.Text>
+            </Form.Group>
 
-          <Form.Group
-            className="mb-3"
-            controlId="longitud"
-            style={{ gridColumn: "2" }}
-          >
-            <Form.Control
-              type="number"
-              placeholder="Longitud"
-              value={longitud}
-              onChange={(event) => setLongitud(event.target.value)}
-              required
-            />
-            <Form.Text className="text-muted">
-              Utiliza el punto (.) para los decimales.
-            </Form.Text>
-          </Form.Group>
+            <Form.Group
+              className="mb-3"
+              controlId="longitud"
+              style={{ gridColumn: "2" }}
+            >
+              <Form.Control
+                type="number"
+                placeholder="Longitud"
+                value={longitud}
+                onChange={(event) => setLongitud(event.target.value)}
+                required
+              />
+              <Form.Text className="text-muted">
+                Utiliza el punto (.) para los decimales.
+              </Form.Text>
+            </Form.Group>
 
-          <Button variant="primary" type="submit" onClick={handleEditar}>
-            Modificar
-          </Button>
-        </Form>
+            <Button variant="primary" type="submit" onClick={handleEditar}>
+              Modificar
+            </Button>
+          </Form>
 
 
-        <div className="espacio" />
-        <TablaSitiosTuristicos
-            sitiosTuristicos={sitiosTuristicos}
-            editable={true}
-            idRestaurante={id}
-            onSeleccionadosChange={handleSitiosTuristicosUpdate}
-        />
+          <div className="espacio" />
+          <TablaSitiosTuristicos
+              sitiosTuristicos={sitiosTuristicos}
+              editable={true}
+              idRestaurante={id}
+              onSeleccionadosChange={handleSitiosTuristicosUpdate}
+          />
 
-        <div className="espacio" />
-        <TablaPlatos platos={backendData.platos} idRestaurante={id} editable={true}/>
+          <div className="espacio" />
+          <TablaPlatos platos={backendData.platos} idRestaurante={id} editable={true}/>
 
-      </div></>)}
+        </div></>)})</>
+      )}
     </div>
-  );
+  )
 }
