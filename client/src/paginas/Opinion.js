@@ -6,8 +6,10 @@ import Button from "react-bootstrap/esm/Button";
 import DialogoOpinar from "../components/Dialogos/DialogoOpinar";
 import { GetJWT } from "../utils/JWT";
 import Error404 from "../components/Error404"; 
+import { Spinner } from "react-bootstrap";
 
 export default function Opinion({ id }) {
+  const [dataLoaded, setDataLoaded] = useState(false);
   const [backendData, setBackendData] = useState([]);
   const [notFound, setNotFound] = useState(false);
   const [modalShow, setModalShow] = useState(false);
@@ -28,11 +30,22 @@ export default function Opinion({ id }) {
       .then((data) => {
         console.log(data);
         setBackendData(data);
+        setDataLoaded(true);
       });
   }, []);
 
   return (
     <div className="App">
+
+      {!dataLoaded ?
+        ( <div class="screen-centered">
+            <Spinner animation="border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </Spinner>
+          </div>
+      )
+      : (<>
+
       {typeof backendData === "undefined" || notFound ? (
         <div className="cuerpo">
           <Error404 />
@@ -63,7 +76,7 @@ export default function Opinion({ id }) {
             />
           </div>
         </>
-      )}
+      )}</>)}
     </div>
   );
 }

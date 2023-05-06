@@ -10,11 +10,13 @@ import { useHistory } from "react-router-dom";
 import { GetJWT } from "../utils/JWT";
 import FormGroup from "react-bootstrap/esm/FormGroup";
 import Form from "react-bootstrap/Form";
+import { Spinner } from "react-bootstrap";
 
 export default function Modificar({ id }) {
 
   const history = useHistory();
 
+  const [dataLoaded, setDataLoaded] = useState(false);
   const [notFound, setNotFound] = useState(false);
   const [backendData, setBackendData] = useState([]);
   const [sitiosTuristicos, setSitiosTuristicos] = useState([]);
@@ -43,7 +45,7 @@ export default function Modificar({ id }) {
         setBackendData(data);
         setNombre(data.nombre);
         setLatitud(data.latitud.toString());
-        setLongitud(data.longitud.toString());
+        setLongitud(data.longitud.toString());        
       });
 
     fetch(`/restaurantes/${id}/sitiosProximos`, {
@@ -58,6 +60,7 @@ export default function Modificar({ id }) {
         })
         .then((data) => {
             setSitiosTuristicos(data.lista)
+            setDataLoaded(true);
         });
   }, []);
 
@@ -136,6 +139,16 @@ export default function Modificar({ id }) {
 
   return (
     <div className="App">
+
+      {!dataLoaded ?
+        ( <div class="screen-centered">
+            <Spinner animation="border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </Spinner>
+          </div>
+      )
+      : (<>
+
       <ImagenHeader titulo={`Modificar ${backendData.nombre}`} />
 
       <div className="cuerpo">
@@ -213,7 +226,7 @@ export default function Modificar({ id }) {
         <div className="espacio" />
         <TablaPlatos platos={backendData.platos} idRestaurante={id} editable={true}/>
 
-      </div>
+      </div></>)}
     </div>
   );
 }

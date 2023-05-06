@@ -8,8 +8,11 @@ import Dialogo from "../components/Dialogos/Dialogo";
 import Alert from "react-bootstrap/Alert";
 import { useHistory } from 'react-router-dom';
 import { GetJWT } from '../utils/JWT';
+import { Spinner } from "react-bootstrap";
 
 export default function Restaurante({ id }) {
+
+  const [dataLoaded, setDataLoaded] = useState(false);
   const [notFound, setNotFound] = useState(false);
   const [backendData, setBackendData] = useState([]);
   const [modalShow, setModalShow] = useState(false);
@@ -36,6 +39,7 @@ export default function Restaurante({ id }) {
       .then((data) => {
         console.log(data)
         setBackendData(data);
+        setDataLoaded(true);
       });
   }, []);
 
@@ -62,6 +66,16 @@ export default function Restaurante({ id }) {
 
   return (
     <div className="App">
+
+      {!dataLoaded ?
+        ( <div class="screen-centered">
+            <Spinner animation="border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </Spinner>
+          </div>
+      )
+      : (<>
+
       {typeof backendData === "undefined" || notFound ? (
         <div className="cuerpo">
           <p>404</p>
@@ -124,7 +138,7 @@ export default function Restaurante({ id }) {
             />
           </div>
         </>
-      )}
+      )}</>)}
     </div>
   );
 }

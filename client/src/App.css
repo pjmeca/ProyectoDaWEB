@@ -100,3 +100,15 @@ button.eliminar:hover {
 th {
   vertical-align: middle;
 }
+
+.screen-centered {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+}
+
+.screen-centered > * {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

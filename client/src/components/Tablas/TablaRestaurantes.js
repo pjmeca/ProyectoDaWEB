@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import Button from 'react-bootstrap/Button';
 import { GetJWT } from '../../utils/JWT';
+import { Spinner } from "react-bootstrap";
 
 export default function TablaRestaurantes() {
+
+  const [dataLoaded, setDataLoaded] = useState(false);
   const [backendData, setBackendData] = useState([]);
   const [paginaActual, setPaginaActual] = useState(1);
   const [restaurantesPorPagina] = useState(10);
@@ -21,7 +24,8 @@ export default function TablaRestaurantes() {
       .then((data) => {
         setBackendData(data);
         console.log(data);
-      });
+        setDataLoaded(true);
+      });    
   }, []);
 
   function ContenidoTabla() {
@@ -66,24 +70,31 @@ export default function TablaRestaurantes() {
 
   return (
     <div>
-      {typeof backendData === "undefined" ||
-      typeof backendData.restaurantes === "undefined" ||
-      backendData.restaurantes.length === 0 ? (
-        <p>No hay datos</p>
-      ) : (
-        <>
-          <Table striped>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Nombre</th>
-                <th>Url</th>
-              </tr>
-            </thead>
-            <tbody>{ContenidoTabla()}</tbody>
-          </Table>
-          <Paginacion />
-        </>
+      {!dataLoaded ?
+        ( <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>)
+      : (<>
+        {typeof backendData === "undefined" ||
+        typeof backendData.restaurantes === "undefined" ||
+        backendData.restaurantes.length === 0 ? (
+          <p>No hay datos</p>
+        ) : (
+          <>
+            <Table striped>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Nombre</th>
+                  <th>Url</th>
+                </tr>
+              </thead>
+              <tbody>{ContenidoTabla()}</tbody>
+            </Table>
+            <Paginacion />
+          </>
+        )}
+      </>
       )}
     </div>
   );
