@@ -2,6 +2,7 @@ import ImagenHeader from "../components/Plantilla/ImagenHeader";
 import { useEffect, useState } from "react";
 import TablaPlatos from "../components/Tablas/TablaPlatos";
 import TablaSitiosTuristicos from "../components/Tablas/TablaSitiosTuristicos";
+import TablaIncidencias from "../components/Tablas/TablaIncidencias";
 import Estrellas from "../components/Estrellas";
 import Button from 'react-bootstrap/Button';
 import Dialogo from "../components/Dialogos/Dialogo";
@@ -77,75 +78,82 @@ export default function Restaurante({ id }) {
       )
       : (<>
 
-      {typeof backendData === "undefined" || notFound ? (
-        <div className="cuerpo">
-          <Error404 />
-        </div>
-      ) : (
-        <>
-          <ImagenHeader titulo={backendData.nombre} />          
-
+        {typeof backendData === "undefined" || notFound ? (
           <div className="cuerpo">
-
-          <Alert
-            show={showAlert}
-            variant="danger"
-            onClose={() => setShowAlert(false)}
-            dismissible
-          >
-            <Alert.Heading>Error</Alert.Heading>
-            <p>{mensajeError}</p>
-          </Alert>
-
-            <h3>Detalles</h3>
-            <div style={{ display: "grid", padding: "0 20%" }}>
-              <div style={{ gridColumn: 1, textAlign: "left" }}>
-                <p>Latitud: {backendData.latitud}</p>
-                <p>Longitud: {backendData.longitud}</p>
-              </div>
-
-              <div style={{ gridColumn: 2, textAlign: "right" }} className="seleccionable" onClick={() => {history.push(`/opiniones/${backendData.opinion}`)}}>
-                <div><Estrellas calificacion={backendData.calificacionMedia} />
-                {" " + backendData.numValoraciones}</div>
-
-                <div><Button className={"primario"}  onClick={() => {history.push(`/restaurantes/${id}/modificar`)}}>Modificar</Button></div>
-              </div>
-            </div>
-
-            <TablaSitiosTuristicos
-              sitiosTuristicos={backendData.sitiosTuristicos}
-            />
-            <TablaPlatos platos={backendData.platos} idRestaurante={id} />
-
-            <div style={{ display: "grid" }}>
-
-              <div style={{ gridColumn: 1, textAlign: "left" }}>
-                  <Button variant="primary" onClick={() => {history.push(`/opiniones/${backendData.opinion}`)}}>Ver Opiniones</Button>
-              </div>
-
-              { IsAllowed(backendData.idGestor) ? (
-                <>
-                  <div style={{ gridColumn: 2, textAlign: "right" }}>
-                      <Button variant="primary" onClick={() => {history.push(`/restaurantes/${id}/modificar`)}}>Modificar</Button>
-                  </div>
-
-                  <div style={{ gridColumn: 3, textAlign: "right" }}>
-                      <Button variant="danger" onClick={() => setModalShow(true)}>Eliminar</Button>
-                  </div>
-                
-                </>
-              ): null}
-
-              </div>
-
-            <Dialogo 
-                show={modalShow}
-                onHide={() => setModalShow(false)} 
-                title = "¿Deseas continuar?"
-                body = {<p>El restaurante será eliminado del sistema.</p>}
-                buttons = {<Button variant="danger" onClick={handleEliminar}>Eliminar</Button>}
-            />
+            <Error404 />
           </div>
+        ) : (
+          <>
+            <ImagenHeader titulo={backendData.nombre} />        
+
+            <div className="cuerpo">
+
+            <Alert
+              show={showAlert}
+              variant="danger"
+              onClose={() => setShowAlert(false)}
+              dismissible
+            >
+              <Alert.Heading>Error</Alert.Heading>
+              <p>{mensajeError}</p>
+            </Alert>
+
+              <h3>Detalles</h3>
+              <div style={{ display: "grid", padding: "0 20%" }}>
+                <div style={{ gridColumn: 1, textAlign: "left" }}>
+                  <p>Latitud: {backendData.latitud}</p>
+                  <p>Longitud: {backendData.longitud}</p>
+                </div>
+
+                <div style={{ gridColumn: 2, textAlign: "right" }}>
+                  <div className="seleccionable" onClick={() => {history.push(`/opiniones/${backendData.opinion}`)}}>
+                    <div><Estrellas calificacion={backendData.calificacionMedia} />
+                    {" " + backendData.numValoraciones}</div>
+                  </div>
+
+                  <div><Button className={"primario"}  onClick={() => {history.push(`/restaurantes/${id}/modificar`)}}>Modificar</Button></div>
+                </div>
+              </div>
+
+              <div className="espacio" />
+              <TablaSitiosTuristicos
+                sitiosTuristicos={backendData.sitiosTuristicos}
+              />
+              <div className="espacio" />
+              <TablaPlatos platos={backendData.platos} idRestaurante={id} />
+              <div className="espacio" />
+              <TablaIncidencias idRestaurante={id} />
+              <div className="espacio" />
+              
+              <div style={{ display: "grid" }}>
+
+                <div style={{ gridColumn: 1, textAlign: "left" }}>
+                    <Button variant="primary" onClick={() => {history.push(`/opiniones/${backendData.opinion}`)}}>Ver Opiniones</Button>
+                </div>
+
+                { IsAllowed(backendData.idGestor) ? (
+                  <>
+                    <div style={{ gridColumn: 2, textAlign: "right" }}>
+                        <Button variant="primary" onClick={() => {history.push(`/restaurantes/${id}/modificar`)}}>Modificar</Button>
+                    </div>
+
+                    <div style={{ gridColumn: 3, textAlign: "right" }}>
+                        <Button variant="danger" onClick={() => setModalShow(true)}>Eliminar</Button>
+                    </div>
+                
+                  </>
+                ): null}
+
+                </div>
+
+              <Dialogo
+                  show={modalShow}
+                  onHide={() => setModalShow(false)}
+                  title = "¿Deseas continuar?"
+                  body = {<p>El restaurante será eliminado del sistema.</p>}
+                  buttons = {<Button variant="danger" onClick={handleEliminar}>Eliminar</Button>}
+              />
+            </div>
         </>
       )}</>)}
     </div>

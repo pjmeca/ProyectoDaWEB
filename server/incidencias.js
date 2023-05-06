@@ -20,7 +20,39 @@ conexion.connect((err) => {
 
 ///////////////////////////////////////////////////
 
-module.exports = { postIncidencia };
+module.exports = { getIncidencias, postIncidencia };
+
+function getIncidencias(req, res) {
+    console.log(req.query);
+
+    let idRestaurante = req.query.idRestaurante
+    
+    let query = idRestaurante ?
+        `SELECT idRestaurante, nombre, comentario, fechaHora FROM incidencias WHERE idRestaurante="${idRestaurante}" ORDER BY fechaHora DESC`
+        : `SELECT idRestaurante, nombre, comentario, fechaHora FROM incidencias ORDER BY fechaHora DESC`
+
+    conexion.query(query,
+        (err, filas) => {
+            if (err) { 
+                console.error(err); 
+                filas.send(500, err); 
+                return;
+            }
+            let incidencias = []
+            for(var i=0; i<filas.length; i++) {
+                let incidencia = {
+                    idRestaurante: filas[i].idRestaurante,
+                    nombre: filas[i].nombre,
+                    comentario: filas[i].comentario,
+                    fechaHora: filas[i].fechaHora
+                }
+                incidencias.push(incidencia);
+            }
+            console.log(incidencias)
+            res.send(incidencias)
+        }
+    );
+}
 
 function postIncidencia(req, res) {
     console.log(req.body);
@@ -43,4 +75,5 @@ function postIncidencia(req, res) {
                 return;
             }
         });
-  }
+    res.send(204)
+}

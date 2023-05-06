@@ -1,6 +1,6 @@
 :root {
   --cPrim: rgb(171, 42, 62);
-  --cPrimDark: rgb(161,32,52);
+  --cPrimDark: rgb(151,22,42);
 
 }
 
@@ -113,6 +113,13 @@ button.primario:hover {
   color: #fff;
   background-color: var(--cPrimDark);
   border-color: transparent;
+}
+
+button.primario:hover:active{
+  background-color: var(--cPrimDark);
+}
+button.primario:active:focus{
+  background-color: var(--cPrimDark);
 }
 
 button.edicion {

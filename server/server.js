@@ -29,5 +29,6 @@ app.get("/opiniones/:id", getOpinion);
 app.put("/opiniones/:id", putOpinion);
 
 // Incidencias
-const { postIncidencia } = require('./incidencias')
+const { getIncidencias, postIncidencia } = require('./incidencias')
+app.get("/incidencias", getIncidencias)
 app.post("/incidencias", postIncidencia)
