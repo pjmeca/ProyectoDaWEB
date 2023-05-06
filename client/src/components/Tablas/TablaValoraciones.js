@@ -1,4 +1,5 @@
 import ListGroup from "react-bootstrap/ListGroup";
+import Error404 from "../Error404";
 import Estrellas from "../Estrellas";
 
 export default function TablaValoraciones({ valoraciones }) {
@@ -21,7 +22,7 @@ export default function TablaValoraciones({ valoraciones }) {
   return (
     <div>
       {typeof valoraciones === "undefined" ? (
-        <>404</>
+        <Error404 />
       ) : (
         valoraciones.length == 0 ? 
           (<p>No hay valoraciones</p>) : 

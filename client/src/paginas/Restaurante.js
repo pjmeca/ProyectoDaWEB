@@ -9,6 +9,7 @@ import Alert from "react-bootstrap/Alert";
 import { useHistory } from 'react-router-dom';
 import { GetJWT } from '../utils/JWT';
 import { Spinner } from "react-bootstrap";
+import Error404 from "../components/Error404";
 
 export default function Restaurante({ id }) {
 
@@ -78,7 +79,7 @@ export default function Restaurante({ id }) {
 
       {typeof backendData === "undefined" || notFound ? (
         <div className="cuerpo">
-          <p>404</p>
+          <Error404 />
         </div>
       ) : (
         <>
