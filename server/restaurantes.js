@@ -101,8 +101,7 @@ function getRestaurante(req, res) {
   })
     .then((response) => {
       if (!response.ok) {
-        res.status(500).send();
-        return "Error al obtener los datos de la API";
+        throw new Error("Error al obtener los datos de la API");
       }
 
       return response.text();
@@ -113,7 +112,7 @@ function getRestaurante(req, res) {
       res.send(data);
     })
     .catch((error) => {
-      res.status(500).send("Error al obtener los datos de la API");
+      res.status(500).send(error.message);
     });
 }
 
@@ -127,13 +126,12 @@ function deleteRestaurante(req, res) {
   })
     .then((response) => {
       if (!response.ok) {
-        res.status(500).send();
-        return "Error al obtener los datos de la API";
+        throw new Error("Error al obtener los datos de la API");
       }
     })
     .then(res.status(204).send())
     .catch((error) => {
-      res.status(500).send("Error al obtener los datos de la API");
+      res.status(500).send(error.message);
     });
 }
 
@@ -146,8 +144,7 @@ function getSitiosProximos(req, res) {
   })
   .then((response) => {
     if (!response.ok) {
-      res.status(500).send();
-      return "Error al obtener los datos de la API";
+      throw new Error("Error al obtener los datos de la API");
     }
     return response.json()
   })
@@ -156,8 +153,8 @@ function getSitiosProximos(req, res) {
     res.setHeader("Expires", "0"); // HTTP 1.0
     res.send(data);
   })
-  .catch(() => {
-    res.status(500).send("Error al obtener los datos de la API");
+  .catch((error) => {
+    res.status(500).send(error.message);
   });
 }
 
@@ -174,13 +171,12 @@ function postPlato(req, res) {
   })
   .then((response) => {
     if (!response.ok) {
-      res.status(500);
-      return "Error al obtener los datos de la API";
+      throw new Error("Error al obtener los datos de la API");
     }
     res.status(204).send();
   })
-  .catch(() => {
-    res.status(500).send("Error al obtener los datos de la API");
+  .catch((error) => {
+    res.status(500).send(error.message);
   });
 }
 
@@ -197,13 +193,12 @@ function putPlato(req, res) {
   })
   .then((response) => {
     if (!response.ok) {
-      res.status(500).send();
-      return "Error al obtener los datos de la API";
+      throw new Error("Error al obtener los datos de la API");
     }
     res.status(204).send();
   })
-  .catch(() => {
-    res.status(500).send("Error al obtener los datos de la API");
+  .catch((error) => {
+    res.status(500).send(error.message);
   });
 }
 
@@ -220,12 +215,11 @@ function deletePlato(req, res) {
   })
     .then((response) => {
       if (!response.ok) {
-        res.status(500).send();
-        return "Error al obtener los datos de la API";
+        throw new Error("Error al obtener los datos de la API");
       }
       res.status(204).send()
     })
     .catch((error) => {
-      res.status(500).send("Error al obtener los datos de la API");
+      res.status(500).send(error.message);
     });
 }
