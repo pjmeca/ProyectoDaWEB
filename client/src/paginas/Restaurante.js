@@ -104,16 +104,18 @@ export default function Restaurante({ id }) {
                 <p>Longitud: {backendData.longitud}</p>
               </div>
 
-              <div style={{ gridColumn: 2, textAlign: "right" }}>
-                <Estrellas calificacion={backendData.calificacionMedia} />
-                {" " + backendData.numValoraciones}
+              <div style={{ gridColumn: 2, textAlign: "right" }} className="seleccionable" onClick={() => {history.push(`/opiniones/${backendData.opinion}`)}}>
+                <div><Estrellas calificacion={backendData.calificacionMedia} />
+                {" " + backendData.numValoraciones}</div>
+
+                <div><Button className={"primario"}  onClick={() => {history.push(`/restaurantes/${id}/modificar`)}}>Modificar</Button></div>
               </div>
             </div>
 
             <TablaSitiosTuristicos
               sitiosTuristicos={backendData.sitiosTuristicos}
             />
-            <TablaPlatos platos={backendData.platos} />
+            <TablaPlatos platos={backendData.platos} idRestaurante={id} />
 
             <div style={{ display: "grid" }}>
 
