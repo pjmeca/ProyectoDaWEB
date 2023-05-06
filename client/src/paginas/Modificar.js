@@ -12,6 +12,9 @@ import FormGroup from "react-bootstrap/esm/FormGroup";
 import Form from "react-bootstrap/Form";
 
 export default function Modificar({ id }) {
+
+  const history = useHistory();
+
   const [notFound, setNotFound] = useState(false);
   const [backendData, setBackendData] = useState([]);
   const [sitiosTuristicos, setSitiosTuristicos] = useState([]);
@@ -109,17 +112,17 @@ export default function Modificar({ id }) {
     backendData.sitiosTuristicos = sitiosTuristicosElegidos;
     
     fetch(`/restaurantes/${id}`, {
-    method: "PUT",
-    headers: {
-        "Content-Type": "application/json",
-        Authentication: `Bearer ${GetJWT()}`,
-    },
-    body: JSON.stringify(backendData),
+      method: "PUT",
+      headers: {
+          "Content-Type": "application/json",
+          Authentication: `Bearer ${GetJWT()}`,
+      },
+      body: JSON.stringify(backendData),
     })
     .then((response) => {
         if (!response.ok) {
-        setShowAlert(true);
-        setMensajeError(`El restaurante no existe.`);
+          setShowAlert(true);
+          setMensajeError(`El restaurante no existe.`);
         } else {
             history.push(`/restaurantes/${id}`);
         }
