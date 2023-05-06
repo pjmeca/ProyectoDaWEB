@@ -16,6 +16,7 @@ export default function App() {
         {isLogin() ? 
           <>
             <Button variant="primary" href='./crear'>Crear</Button>
+            <div className='espacio'></div>
             <TablaRestaurantes />
           </>
         : 
