@@ -27,3 +27,7 @@ app.delete("/restaurantes/:id/plato", deletePlato);
 const { getOpinion, putOpinion } = require('./opiniones')
 app.get("/opiniones/:id", getOpinion);
 app.put("/opiniones/:id", putOpinion);
+
+// Incidencias
+const { postIncidencia } = require('./incidencias')
+app.post("/incidencias", postIncidencia)

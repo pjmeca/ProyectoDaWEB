@@ -20,7 +20,7 @@ export default function Dialogo(props) {
         <Modal.Footer>
             <>
                 {props.buttons}   
-                <Button onClick={props.onHide}>Cerrar</Button> 
+                <Button variant="secondary" onClick={props.onHide}>Cerrar</Button> 
             </>
         </Modal.Footer>
       </Modal>

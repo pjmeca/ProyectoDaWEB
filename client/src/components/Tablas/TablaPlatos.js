@@ -5,12 +5,18 @@ import { Button } from "react-bootstrap";
 import DialogoPlatos from "../Dialogos/DialogoPlatos";
 import Dialogo from "../Dialogos/Dialogo";
 import { GetJWT } from "../../utils/JWT";
+import { Form } from "react-bootstrap";
+import { Alert } from "react-bootstrap";
 
 export default function TablaPlatos({ idRestaurante, platos, editable=false } ) {
 
   const [modalShow, setModalShow] = useState(false);
   const [modalEliminarShow, setModalEliminarShow] = useState(false);
+  const [modalIncidenciaShow, setModalIncidenciaShow] = useState(false);
   const [platoActual, setPlatoActual] = useState();
+  const [comentarioIncidencia, setComentarioIncidencia] = useState("")
+  const [showAlert, setShowAlert] = useState(false)
+  const [mensajeError, setMensajeError] = useState("")
 
   function ContenidoTabla() {
     return platos.map((plato) => (    
@@ -23,15 +29,19 @@ export default function TablaPlatos({ idRestaurante, platos, editable=false } ) 
                 <>
                   <th style={{width: "20%"}}>{plato.disponible ? "Disponible" : "No disponible"}</th>
                   <th >
-                    <Button className={"edicion"} variant="link" onClick={() => {setPlatoActual(plato); setModalShow(true)}}>
+                    <Button className={"edicion"} variant="link" onClick={() => {setPlatoActual(plato); setComentarioIncidencia(""); setModalShow(true)}}>
                       <FontAwesomeIcon icon="fa-regular fa-pen-to-square" /> 
                     </Button>  
-                    <Button className={"edicion eliminar"} variant="link" onClick={() => {setPlatoActual(plato); setModalEliminarShow(true)}}>
+                    <Button className={"edicion eliminar"} variant="link" onClick={() => {setPlatoActual(plato); setComentarioIncidencia(""); setModalEliminarShow(true)}}>
                       <FontAwesomeIcon icon="fa-regular fa-trash-can" />   
                     </Button>           
                   </th>
                 </> :
-                null
+                <th >
+                  <Button className={"edicion incidencia"} variant="link" onClick={() => {setPlatoActual(plato); setComentarioIncidencia(""); setModalIncidenciaShow(true)}}>
+                    <FontAwesomeIcon icon="fa-triangle-exclamation" />
+                  </Button>                             
+                </th>
               }
       </tr> : null
     ));
@@ -57,6 +67,50 @@ export default function TablaPlatos({ idRestaurante, platos, editable=false } ) 
       })
       .catch((error) => {
         setMensajeError(fetchError)
+        setShowAlert(true);
+        console.error("Error:", error);
+      });    
+  }
+
+  function handleIncidencia() {        
+
+    if (platoActual.nombre.trim() === "" || comentarioIncidencia.trim() === "") {
+      setMensajeError("Por favor, revise los campos del formulario.")
+      setShowAlert(true)
+      return
+    }
+
+    if (comentarioIncidencia.length > 300) {
+      setMensajeError("Comentario demasiado largo, máximo 300 caracteres.")
+      setShowAlert(true)
+      return
+    }
+
+    let incidencia = {
+      idRestaurante: idRestaurante,
+      nombre: platoActual.nombre,
+      comentario: comentarioIncidencia,
+    }
+
+    console.log("Nueva incidencia")
+    console.log(incidencia)
+
+    fetch(`/incidencias`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authentication": `Bearer ${GetJWT()}`,
+      },
+      body: JSON.stringify(incidencia),
+    })
+      .then((response) => {
+        if (response.ok)
+          history.go(0)
+        else
+          throw new Error("Error al crear la incidencia, por favor, inténtalo más tarde.")
+      })
+      .catch((error) => {
+        setMensajeError(error.message)
         setShowAlert(true);
         console.error("Error:", error);
       });    
@@ -92,7 +146,7 @@ export default function TablaPlatos({ idRestaurante, platos, editable=false } ) 
                     <th>Disponibilidad</th>
                     <th>Opciones</th>              
                   </>
-                ) : null  
+                ) : <th>Registrar Incidencia</th>
               }
             </tr>
           </thead>
@@ -119,7 +173,45 @@ export default function TablaPlatos({ idRestaurante, platos, editable=false } ) 
                 onHide = {() => setModalEliminarShow(false)}
         />
 
+        <Dialogo
+                show = {modalIncidenciaShow}
+                title = "Crear incidencia"
+                body = {
+                  <div>
+                    <Form.Group
+                      className="mb-3"
+                      controlId="exampleForm.ControlTextarea1"
+                    >
+                      <Form.Label>Plato</Form.Label>
+                      <Form.Control type="text" value={platoActual ? platoActual.nombre : ""} disabled/>
+                    </Form.Group>
 
+                    <Form.Group
+                      className="mb-3"
+                      controlId="exampleForm.ControlTextarea1"
+                    >
+                      <Form.Label>Comentario</Form.Label>
+                      <Form.Control as="textarea" rows={3} value={comentarioIncidencia} onChange={(event) => setComentarioIncidencia(event.target.value)}/>
+                    </Form.Group>
+
+                    <Alert
+                      show={showAlert}
+                      variant="danger"
+                      onClose={() => setShowAlert(false)}
+                      dismissible
+                    >
+                      <p>{mensajeError}</p>
+                    </Alert>
+                  </div>
+                }
+                buttons = {
+                  <Button variant="primary" onClick={() => {handleIncidencia()}}>
+                    Crear
+                  </Button>
+                }
+                onHide = {() => {setModalIncidenciaShow(false); setShowAlert(false);}}
+        />
+        
         </>
       )}
     </div>
