@@ -110,9 +110,11 @@ export default function Restaurante({ id }) {
                     <div><Estrellas calificacion={backendData.calificacionMedia} />
                     {" " + backendData.numValoraciones}</div>
                   </div>
-
-                  <div><Button className={"primario"}  onClick={() => {history.push(`/restaurantes/${id}/modificar`)}}>Modificar</Button></div>
-                </div>
+                  {(IsAllowed(backendData.idGestor) )?
+                    <div><Button className={"primario"}  onClick={() => {history.push(`/restaurantes/${id}/modificar`)}}>Modificar</Button></div> 
+                    : null
+                  }
+                  </div>
               </div>
 
               <div className="espacio" />
@@ -133,10 +135,6 @@ export default function Restaurante({ id }) {
 
                 { IsAllowed(backendData.idGestor) ? (
                   <>
-                    <div style={{ gridColumn: 2, textAlign: "right" }}>
-                        <Button variant="primary" onClick={() => {history.push(`/restaurantes/${id}/modificar`)}}>Modificar</Button>
-                    </div>
-
                     <div style={{ gridColumn: 3, textAlign: "right" }}>
                         <Button variant="danger" onClick={() => setModalShow(true)}>Eliminar</Button>
                     </div>
