@@ -1,4 +1,5 @@
 var constantes = require("./constantes");
+const { deleteIncidencia } = require("./incidencias");
 
 module.exports = {
   getRestaurantes,
@@ -124,11 +125,32 @@ function deleteRestaurante(req, res) {
     },
     method: "DELETE",
   })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Error al obtener los datos de la API");
-      }
-    })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error("Error al obtener los datos de la API");
+    }
+    // Eliminar las incidencias
+    let incidencia = {
+      idRestaurante: id,
+    }
+    req.body = incidencia;
+
+    // Envolver la llamada a deleteIncidencia() en una promesa
+    return new Promise((resolve, reject) => {
+      deleteIncidencia(req, {
+        sendStatus: (status) => {
+          if (status === 204) {
+            resolve();
+          } else {
+            reject(new Error("Error al eliminar las incidencias"));
+          }
+        },
+        send: (error) => {
+          reject(error);
+        },
+      });
+    });
+  })
     .then(res.status(204).send())
     .catch((error) => {
       res.status(500).send(error.message);
@@ -217,9 +239,34 @@ function deletePlato(req, res) {
       if (!response.ok) {
         throw new Error("Error al obtener los datos de la API");
       }
-      res.status(204).send()
+      // Eliminar las incidencias
+      let incidencia = {
+        idRestaurante: id,
+        nombre: req.body.valor.split("=")[1]
+      }
+      req.body = incidencia;
+
+      // Envolver la llamada a deleteIncidencia() en una promesa
+      return new Promise((resolve, reject) => {
+        deleteIncidencia(req, {
+          sendStatus: (status) => {
+            if (status === 204) {
+              resolve();
+            } else {
+              reject(new Error("Error al eliminar las incidencias"));
+            }
+          },
+          send: (error) => {
+            reject(error);
+          },
+        });
+      });
+    })
+    .then(() => {
+      res.status(204).send();
     })
     .catch((error) => {
+      console.error(error);
       res.status(500).send(error.message);
     });
 }

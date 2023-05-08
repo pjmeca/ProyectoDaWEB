@@ -142,7 +142,7 @@ export default function Modificar({ id }) {
     <div className="App">
 
       {!dataLoaded ?
-        ( <div classname="screen-centered">
+        ( <div className="screen-centered">
             <Spinner animation="border" role="status">
               <span className="visually-hidden">Loading...</span>
             </Spinner>

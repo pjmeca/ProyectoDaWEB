@@ -1,6 +1,8 @@
 import ListGroup from "react-bootstrap/ListGroup";
 import { useEffect, useState } from "react";
-import { GetJWT } from "../../utils/JWT";
+import { GetJWT, GetCorreo } from "../../utils/JWT";
+import { Button } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function TablaIncidencias({idRestaurante}) {
 
@@ -27,13 +29,46 @@ export default function TablaIncidencias({idRestaurante}) {
       });    
   }, []);
   
+  function handleEliminar(incidencia) {        
+
+    console.log("ELIMINAR:")
+    console.log(incidencia)
+
+    fetch(`/incidencias`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authentication": `Bearer ${GetJWT()}`,
+      },
+      body: JSON.stringify(incidencia),
+    })
+      .then((response) => {
+        if (response.ok)
+          history.go(0)
+      })
+      .catch((error) => {
+        setMensajeError(fetchError)
+        setShowAlert(true);
+        console.error("Error:", error);
+      });    
+  }
+
   function ContenidoTabla() {
     return incidencias.map((incidencia, i) => (
-      <ListGroup.Item key={i} style={{ textAlign: "left" }}>
+      <ListGroup.Item key={i}style={{textAlign: "left"}}>
+        <div className="row">
+        <div className="col-11">
         Sobre <strong>{incidencia.nombre}</strong> en {incidencia.fechaHora.split("T")[0]}
         <br />
-
         {incidencia.comentario}
+        </div>
+        {(incidencia.correo === GetCorreo())?
+          <Button className={"eliminar col-1"} variant="link" onClick={() => {handleEliminar(incidencia)}}>
+            <FontAwesomeIcon icon="fa-regular fa-trash-can" />
+          </Button> : null
+        }
+        </div>
+        
       </ListGroup.Item>
     ));
   }

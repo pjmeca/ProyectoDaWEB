@@ -130,7 +130,13 @@ button.edicion {
   color: black;
 }
 
-button.eliminar:hover {
+button.eliminar{
+  font-size: larger;
+  padding: 0;
+  color: black;  
+}
+
+button.eliminar:hover {  
   color: red;
 }
 
