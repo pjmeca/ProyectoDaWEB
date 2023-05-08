@@ -26,6 +26,7 @@ export default function Modificar({ id }) {
   const [longitud, setLongitud] = useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [mensajeError, setMensajeError] = useState("");
+  const [modalShow, setModalShow] = useState(false);
 
   useEffect(() => {
     fetch(`/restaurantes/${id}`, {
@@ -138,6 +139,27 @@ export default function Modificar({ id }) {
     });
   }
 
+  const handleEliminar = () => { 
+
+    fetch(`/restaurantes/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authentication": `Bearer ${GetJWT()}`,
+      }
+    })
+      .then((response) => {
+        if (!response.ok) {
+          setShowAlert(true);
+          setMensajeError(`Ha surgido un error al eliminar el restaurante, por favor, inténtelo más tarde.`);
+        }
+        history.push(`/restaurantes`)
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
   return (
     <div className="App">
 
@@ -232,6 +254,18 @@ export default function Modificar({ id }) {
 
           <div className="espacio" />
           <TablaPlatos platos={backendData.platos} idRestaurante={id} editable={true}/>
+
+          <div style={{ gridColumn: 3, textAlign: "right" }}>
+            <Button variant="danger" onClick={() => setModalShow(true)}>Eliminar</Button>
+          </div>
+
+          <Dialogo
+                  show={modalShow}
+                  onHide={() => setModalShow(false)}
+                  title = "¿Deseas continuar?"
+                  body = {<p>El restaurante será eliminado del sistema.</p>}
+                  buttons = {<Button variant="danger" onClick={handleEliminar}>Eliminar</Button>}
+              />
 
         </div></>)})</>
       )}

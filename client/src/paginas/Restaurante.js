@@ -17,7 +17,6 @@ export default function Restaurante({ id }) {
   const [dataLoaded, setDataLoaded] = useState(false);
   const [notFound, setNotFound] = useState(false);
   const [backendData, setBackendData] = useState([]);
-  const [modalShow, setModalShow] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [mensajeError, setMensajeError] = useState("");
 
@@ -44,27 +43,6 @@ export default function Restaurante({ id }) {
         setDataLoaded(true);
       });
   }, []);
-
-  const handleEliminar = () => { 
-
-    fetch(`/restaurantes/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        "Authentication": `Bearer ${GetJWT()}`,
-      }
-    })
-      .then((response) => {
-        if (!response.ok) {
-          setShowAlert(true);
-          setMensajeError(`Ha surgido un error al eliminar el restaurante, por favor, inténtelo más tarde.`);
-        }
-        history.push(`/restaurantes`)
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
 
   return (
     <div className="App">
@@ -133,24 +111,7 @@ export default function Restaurante({ id }) {
                     <Button variant="primary" onClick={() => {history.push(`/opiniones/${backendData.opinion}`)}}>Ver Opiniones</Button>
                 </div>
 
-                { IsAllowed(backendData.idGestor) ? (
-                  <>
-                    <div style={{ gridColumn: 3, textAlign: "right" }}>
-                        <Button variant="danger" onClick={() => setModalShow(true)}>Eliminar</Button>
-                    </div>
-                
-                  </>
-                ): null}
-
-                </div>
-
-              <Dialogo
-                  show={modalShow}
-                  onHide={() => setModalShow(false)}
-                  title = "¿Deseas continuar?"
-                  body = {<p>El restaurante será eliminado del sistema.</p>}
-                  buttons = {<Button variant="danger" onClick={handleEliminar}>Eliminar</Button>}
-              />
+              </div>
             </div>
         </>
       )}</>)}
