@@ -1,40 +1,47 @@
-import './App.css';
-import { useEffect, useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import ImagenHeader from './components/Plantilla/ImagenHeader';
-import { IsGestor, IsLogin } from './utils/JWT';
-import TablaRestaurantes from './components/Tablas/TablaRestaurantes';
+import "./App.css";
+import { useEffect, useState } from "react";
+import Button from "react-bootstrap/Button";
+import ImagenHeader from "./components/Plantilla/ImagenHeader";
+import { IsGestor, IsLogin } from "./utils/JWT";
+import TablaRestaurantes from "./components/Tablas/TablaRestaurantes";
 
 export default function App() {
-
   return (
     <>
       <ImagenHeader />
-      
-      <div className='cuerpo'>        
 
-        {IsLogin() ? 
+      <div className="cuerpo">
+        {IsLogin() ? (
           <>
-            {IsGestor() ? 
+            {IsGestor() ? (
               <>
-                <Button variant="primary" href='./crear'>Crear</Button>
-                <div className='espacio'></div>
+                <Button variant="primary" href="./crear">
+                  Crear
+                </Button>
+                <div className="espacio"></div>
               </>
-            : null}            
-            
+            ) : null}
+
             <TablaRestaurantes />
           </>
-        : 
+        ) : (
           <div>
             <h2>Inicia sesión</h2>
-            <p>Inicia sesión para disfrutar de toda una experiencia gastronómica.</p>
-            <Button variant="primary" href='/login'>Iniciar sesión</Button>
-            
-            <img className="imagen espacio" src='/assets/img/comida.jpg' alt='Comida en la mesa' />
-          </div>
-        }
+            <p>
+              Inicia sesión para disfrutar de toda una experiencia gastronómica.
+            </p>
+            <Button variant="primary" href="/login">
+              Iniciar sesión
+            </Button>
 
+            <img
+              className="imagen espacio"
+              src="/assets/img/comida.jpg"
+              alt="Comida en la mesa"
+            />
+          </div>
+        )}
       </div>
     </>
-  )
+  );
 }

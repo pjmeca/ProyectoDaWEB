@@ -9,8 +9,8 @@ module.exports = {
   deleteRestaurante,
   getSitiosProximos,
   postPlato,
-  putPlato,  
-  deletePlato
+  putPlato,
+  deletePlato,
 };
 
 function getRestaurantes(req, res) {
@@ -74,18 +74,21 @@ function putRestaurante(req, res) {
 
   // Crear el restaurante
   (async () => {
-    const rawResponse = await fetch(`${constantes.API_ARSO}/restaurantes/${req.params.id}`, {
-      method: "PUT",
-      headers: {
-        Authorization: `${req.headers["authentication"]}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(req.body),
-    });
+    const rawResponse = await fetch(
+      `${constantes.API_ARSO}/restaurantes/${req.params.id}`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `${req.headers["authentication"]}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(req.body),
+      }
+    );
     const response = await rawResponse;
 
     if (response.ok) {
-      res.status(204).send(); 
+      res.status(204).send();
     } else {
       // responder con un error
       res.status(500).send("Error al modificar el restaurante");
@@ -125,32 +128,32 @@ function deleteRestaurante(req, res) {
     },
     method: "DELETE",
   })
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error("Error al obtener los datos de la API");
-    }
-    // Eliminar las incidencias
-    let incidencia = {
-      idRestaurante: id,
-    }
-    req.body = incidencia;
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Error al obtener los datos de la API");
+      }
+      // Eliminar las incidencias
+      let incidencia = {
+        idRestaurante: id,
+      };
+      req.body = incidencia;
 
-    // Envolver la llamada a deleteIncidencia() en una promesa
-    return new Promise((resolve, reject) => {
-      deleteIncidencia(req, {
-        sendStatus: (status) => {
-          if (status === 204) {
-            resolve();
-          } else {
-            reject(new Error("Error al eliminar las incidencias"));
-          }
-        },
-        send: (error) => {
-          reject(error);
-        },
+      // Envolver la llamada a deleteIncidencia() en una promesa
+      return new Promise((resolve, reject) => {
+        deleteIncidencia(req, {
+          sendStatus: (status) => {
+            if (status === 204) {
+              resolve();
+            } else {
+              reject(new Error("Error al eliminar las incidencias"));
+            }
+          },
+          send: (error) => {
+            reject(error);
+          },
+        });
       });
-    });
-  })
+    })
     .then(res.status(204).send())
     .catch((error) => {
       res.status(500).send(error.message);
@@ -162,22 +165,22 @@ function getSitiosProximos(req, res) {
   fetch(`${constantes.API_ARSO}/restaurantes/${id}/sitiosProximos`, {
     headers: {
       Authorization: `${req.headers["authentication"]}`,
-    }
+    },
   })
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error("Error al obtener los datos de la API");
-    }
-    return response.json()
-  })
-  .then((data) => {
-    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
-    res.setHeader("Expires", "0"); // HTTP 1.0
-    res.send(data);
-  })
-  .catch((error) => {
-    res.status(500).send(error.message);
-  });
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Error al obtener los datos de la API");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
+      res.setHeader("Expires", "0"); // HTTP 1.0
+      res.send(data);
+    })
+    .catch((error) => {
+      res.status(500).send(error.message);
+    });
 }
 
 function postPlato(req, res) {
@@ -185,21 +188,21 @@ function postPlato(req, res) {
   const id = req.params.id;
   fetch(`${constantes.API_ARSO}/restaurantes/${id}/plato`, {
     headers: {
-      Authorization: `${req.headers["authentication"]}`,      
+      Authorization: `${req.headers["authentication"]}`,
       "Content-Type": "application/json",
     },
     method: "POST",
     body: JSON.stringify(req.body),
   })
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error("Error al obtener los datos de la API");
-    }
-    res.status(204).send();
-  })
-  .catch((error) => {
-    res.status(500).send(error.message);
-  });
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Error al obtener los datos de la API");
+      }
+      res.status(204).send();
+    })
+    .catch((error) => {
+      res.status(500).send(error.message);
+    });
 }
 
 function putPlato(req, res) {
@@ -207,21 +210,21 @@ function putPlato(req, res) {
   const id = req.params.id;
   fetch(`${constantes.API_ARSO}/restaurantes/${id}/plato`, {
     headers: {
-      Authorization: `${req.headers["authentication"]}`,      
+      Authorization: `${req.headers["authentication"]}`,
       "Content-Type": "application/json",
     },
     method: "PUT",
     body: JSON.stringify(req.body),
   })
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error("Error al obtener los datos de la API");
-    }
-    res.status(204).send();
-  })
-  .catch((error) => {
-    res.status(500).send(error.message);
-  });
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Error al obtener los datos de la API");
+      }
+      res.status(204).send();
+    })
+    .catch((error) => {
+      res.status(500).send(error.message);
+    });
 }
 
 function deletePlato(req, res) {
@@ -233,7 +236,7 @@ function deletePlato(req, res) {
       Authorization: `${req.headers["authentication"]}`,
     },
     method: "DELETE",
-    body: req.body.valor
+    body: req.body.valor,
   })
     .then((response) => {
       if (!response.ok) {
@@ -242,8 +245,8 @@ function deletePlato(req, res) {
       // Eliminar las incidencias
       let incidencia = {
         idRestaurante: id,
-        nombre: req.body.valor.split("=")[1]
-      }
+        nombre: req.body.valor.split("=")[1],
+      };
       req.body = incidencia;
 
       // Envolver la llamada a deleteIncidencia() en una promesa

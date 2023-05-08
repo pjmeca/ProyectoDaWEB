@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
 export default function Error404() {
-    let to = "/"
+  let to = "/";
   const history = useHistory();
 
   useEffect(() => {
@@ -20,9 +20,11 @@ export default function Error404() {
       <div className="cuerpo">
         <h1 className="titulo-error">404</h1>
         <p>Página no encontrada</p>
-        <p className='espacio'>Redireccionando en 5 segundos...</p>
-        <p>O puedes hacer clic <a href={to}>aquí</a> para ir directamente.</p>
+        <p className="espacio">Redireccionando en 5 segundos...</p>
+        <p>
+          O puedes hacer clic <a href={to}>aquí</a> para ir directamente.
+        </p>
       </div>
     </div>
   );
-};
+}

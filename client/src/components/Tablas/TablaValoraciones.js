@@ -23,10 +23,12 @@ export default function TablaValoraciones({ valoraciones }) {
     <div>
       {typeof valoraciones === "undefined" ? (
         <Error404 />
+      ) : valoraciones.length == 0 ? (
+        <p>No hay valoraciones</p>
       ) : (
-        valoraciones.length == 0 ? 
-          (<p>No hay valoraciones</p>) : 
-          (<div className="scrolleable"><ListGroup variant="flush">{ContenidoTabla()}</ListGroup></div>)  
+        <div className="scrolleable">
+          <ListGroup variant="flush">{ContenidoTabla()}</ListGroup>
+        </div>
       )}
     </div>
   );

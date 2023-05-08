@@ -62,76 +62,76 @@ export default function Crear() {
 
   return (
     <div className="App">
-
-      {!IsGestor() ? 
-          <div className="cuerpo">
-            <Error404 />
-          </div>
-      : (<>
-
-        <ImagenHeader titulo="Crear un restaurante" />
-
+      {!IsGestor() ? (
         <div className="cuerpo">
-          <Form className="formulario">
-            <Alert
-              show={showAlert}
-              variant="danger"
-              onClose={() => setShowAlert(false)}
-              dismissible
-            >
-              <Alert.Heading>Error</Alert.Heading>
-              <p>{mensajeError}</p>
-            </Alert>
-
-            <Form.Group className="mb-3" controlId="nombre">
-              <Form.Control
-                type="text"
-                placeholder="Nombre"
-                value={nombre}
-                onChange={(event) => setNombre(event.target.value)}
-                required
-              />
-            </Form.Group>
-
-            <Form.Group
-              className="mb-3 mr-3"
-              controlId="latitud"
-              style={{ gridColumn: "1" }}
-            >
-              <Form.Control
-                type="number"
-                placeholder="Latitud"
-                value={latitud}
-                onChange={(event) => setLatitud(event.target.value)}
-                required
-              />
-              <Form.Text className="text-muted">
-                Utiliza el punto (.) para los decimales.
-              </Form.Text>
-            </Form.Group>
-
-            <Form.Group
-              className="mb-3"
-              controlId="longitud"
-              style={{ gridColumn: "2" }}
-            >
-              <Form.Control
-                type="number"
-                placeholder="Longitud"
-                value={longitud}
-                onChange={(event) => setLongitud(event.target.value)}
-                required
-              />
-              <Form.Text className="text-muted">
-                Utiliza el punto (.) para los decimales.
-              </Form.Text>
-            </Form.Group>
-          </Form>
-          <Button variant="primary" type="submit" onClick={handleCrear}>
-            Crear
-          </Button>
+          <Error404 />
         </div>
-      </>)}
+      ) : (
+        <>
+          <ImagenHeader titulo="Crear un restaurante" />
+
+          <div className="cuerpo">
+            <Form className="formulario">
+              <Alert
+                show={showAlert}
+                variant="danger"
+                onClose={() => setShowAlert(false)}
+                dismissible
+              >
+                <Alert.Heading>Error</Alert.Heading>
+                <p>{mensajeError}</p>
+              </Alert>
+
+              <Form.Group className="mb-3" controlId="nombre">
+                <Form.Control
+                  type="text"
+                  placeholder="Nombre"
+                  value={nombre}
+                  onChange={(event) => setNombre(event.target.value)}
+                  required
+                />
+              </Form.Group>
+
+              <Form.Group
+                className="mb-3 mr-3"
+                controlId="latitud"
+                style={{ gridColumn: "1" }}
+              >
+                <Form.Control
+                  type="number"
+                  placeholder="Latitud"
+                  value={latitud}
+                  onChange={(event) => setLatitud(event.target.value)}
+                  required
+                />
+                <Form.Text className="text-muted">
+                  Utiliza el punto (.) para los decimales.
+                </Form.Text>
+              </Form.Group>
+
+              <Form.Group
+                className="mb-3"
+                controlId="longitud"
+                style={{ gridColumn: "2" }}
+              >
+                <Form.Control
+                  type="number"
+                  placeholder="Longitud"
+                  value={longitud}
+                  onChange={(event) => setLongitud(event.target.value)}
+                  required
+                />
+                <Form.Text className="text-muted">
+                  Utiliza el punto (.) para los decimales.
+                </Form.Text>
+              </Form.Group>
+            </Form>
+            <Button variant="primary" type="submit" onClick={handleCrear}>
+              Crear
+            </Button>
+          </div>
+        </>
+      )}
     </div>
   );
 }

@@ -5,7 +5,7 @@ import TablaValoraciones from "../components/Tablas/TablaValoraciones";
 import Button from "react-bootstrap/esm/Button";
 import DialogoOpinar from "../components/Dialogos/DialogoOpinar";
 import { GetJWT } from "../utils/JWT";
-import Error404 from "../components/Error404"; 
+import Error404 from "../components/Error404";
 import { Spinner } from "react-bootstrap";
 
 export default function Opinion({ id }) {
@@ -16,16 +16,16 @@ export default function Opinion({ id }) {
 
   useEffect(() => {
     fetch(`/opiniones/${id}`, {
-        headers: {
-            "Authentication": `Bearer ${GetJWT()}`,
-        }
+      headers: {
+        Authentication: `Bearer ${GetJWT()}`,
+      },
     })
       .then((response) => {
         if (!response.ok) {
           setNotFound(true);
           return "";
         }
-        return response.json()
+        return response.json();
       })
       .then((data) => {
         console.log(data);
@@ -36,47 +36,47 @@ export default function Opinion({ id }) {
 
   return (
     <div className="App">
-
-      {!dataLoaded ?
-        ( <div className="screen-centered">
-            <Spinner animation="border" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </Spinner>
-          </div>
-      )
-      : (<>
-
-      {typeof backendData === "undefined" || notFound ? (
-        <div className="cuerpo">
-          <Error404 />
+      {!dataLoaded ? (
+        <div className="screen-centered">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
         </div>
       ) : (
         <>
-          <ImagenHeader titulo={"Opinión de " + backendData.nombre} />
-
-          <div className="cuerpo">
-            <Estrellas
-              calificacion={backendData.calificacionMedia}
-              text={" " + backendData.numValoraciones}
-              style={{ fontSize: "2rem" }}
-            />
-
-            <div style={{ textAlign: "right" }}>
-              <Button variant="primary" onClick={() => setModalShow(true)}>
-                Opinar
-              </Button>
+          {typeof backendData === "undefined" || notFound ? (
+            <div className="cuerpo">
+              <Error404 />
             </div>
+          ) : (
+            <>
+              <ImagenHeader titulo={"Opinión de " + backendData.nombre} />
 
-            <TablaValoraciones valoraciones={backendData.valoraciones} />
+              <div className="cuerpo">
+                <Estrellas
+                  calificacion={backendData.calificacionMedia}
+                  text={" " + backendData.numValoraciones}
+                  style={{ fontSize: "2rem" }}
+                />
 
-            <DialogoOpinar 
-                show={modalShow}
-                onHide={() => setModalShow(false)}
-                id= {id}
-            />
-          </div>
+                <div style={{ textAlign: "right" }}>
+                  <Button variant="primary" onClick={() => setModalShow(true)}>
+                    Opinar
+                  </Button>
+                </div>
+
+                <TablaValoraciones valoraciones={backendData.valoraciones} />
+
+                <DialogoOpinar
+                  show={modalShow}
+                  onHide={() => setModalShow(false)}
+                  id={id}
+                />
+              </div>
+            </>
+          )}
         </>
-      )}</>)}
+      )}
     </div>
   );
 }

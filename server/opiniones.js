@@ -27,11 +27,10 @@ function getOpinion(req, res) {
 }
 
 function putOpinion(req, res) {
-  
   const id = req.params.id;
-  
-  console.log(req.body);   
-  
+
+  console.log(req.body);
+
   (async () => {
     const rawResponse = await fetch(constantes.API_ARSO + `/opiniones/${id}`, {
       method: "PUT",
@@ -43,11 +42,11 @@ function putOpinion(req, res) {
     });
     const response = await rawResponse;
 
-    if (response.ok) {  
+    if (response.ok) {
       // responder no content
       res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
       res.setHeader("Expires", "0");
-      res.status(204).send()
+      res.status(204).send();
     } else {
       // responder con un error
       res.status(500).send("Error al crear el restaurante");

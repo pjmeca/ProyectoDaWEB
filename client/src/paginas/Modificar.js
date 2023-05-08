@@ -14,7 +14,6 @@ import { Spinner } from "react-bootstrap";
 import Error404 from "../components/Error404";
 
 export default function Modificar({ id }) {
-
   const history = useHistory();
 
   const [dataLoaded, setDataLoaded] = useState(false);
@@ -47,23 +46,22 @@ export default function Modificar({ id }) {
         setBackendData(data);
         setNombre(data.nombre);
         setLatitud(data.latitud.toString());
-        setLongitud(data.longitud.toString());        
+        setLongitud(data.longitud.toString());
       });
 
     fetch(`/restaurantes/${id}/sitiosProximos`, {
-        headers: {
-            Authentication: `Bearer ${GetJWT()}`,
-          },
+      headers: {
+        Authentication: `Bearer ${GetJWT()}`,
+      },
     })
-        .then((response) => {
-            if(response.ok)
-                return response.json()
-            return ""
-        })
-        .then((data) => {
-            setSitiosTuristicos(data.lista)
-            setDataLoaded(true);
-        });
+      .then((response) => {
+        if (response.ok) return response.json();
+        return "";
+      })
+      .then((data) => {
+        setSitiosTuristicos(data.lista);
+        setDataLoaded(true);
+      });
   }, []);
 
   const handleEditar = () => {
@@ -96,7 +94,7 @@ export default function Modificar({ id }) {
           setShowAlert(true);
           setMensajeError(`El restaurante ${nombreActual} no existe.`);
         } else {
-            history.push(`/restaurantes/${id}`);
+          history.push(`/restaurantes/${id}`);
         }
       })
       .catch((error) => {
@@ -107,53 +105,53 @@ export default function Modificar({ id }) {
   };
 
   function handleSitiosTuristicosUpdate(value) {
-    let sitiosTuristicosElegidos = []
-    for(let i = 0; i<value.length; i++) {
-        if(value[i])
-            sitiosTuristicosElegidos.push(sitiosTuristicos[i])
+    let sitiosTuristicosElegidos = [];
+    for (let i = 0; i < value.length; i++) {
+      if (value[i]) sitiosTuristicosElegidos.push(sitiosTuristicos[i]);
     }
-    console.log(sitiosTuristicosElegidos)
+    console.log(sitiosTuristicosElegidos);
 
     backendData.sitiosTuristicos = sitiosTuristicosElegidos;
-    
+
     fetch(`/restaurantes/${id}`, {
       method: "PUT",
       headers: {
-          "Content-Type": "application/json",
-          Authentication: `Bearer ${GetJWT()}`,
+        "Content-Type": "application/json",
+        Authentication: `Bearer ${GetJWT()}`,
       },
       body: JSON.stringify(backendData),
-    })
-    .then((response) => {
-        if (!response.ok) {
-          setShowAlert(true);
-          setMensajeError(`El restaurante no existe.`);
-        } else {
-            history.push(`/restaurantes/${id}`);
-        }
-    })
-    .catch((error) => {
-        setShowAlert(true);
-        setMensajeError(`Error al crear el restaurante.`);
-        console.error("Error:", error);
-    });
-  }
-
-  const handleEliminar = () => { 
-
-    fetch(`/restaurantes/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        "Authentication": `Bearer ${GetJWT()}`,
-      }
     })
       .then((response) => {
         if (!response.ok) {
           setShowAlert(true);
-          setMensajeError(`Ha surgido un error al eliminar el restaurante, por favor, inténtelo más tarde.`);
+          setMensajeError(`El restaurante no existe.`);
+        } else {
+          history.push(`/restaurantes/${id}`);
         }
-        history.push(`/restaurantes`)
+      })
+      .catch((error) => {
+        setShowAlert(true);
+        setMensajeError(`Error al crear el restaurante.`);
+        console.error("Error:", error);
+      });
+  }
+
+  const handleEliminar = () => {
+    fetch(`/restaurantes/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authentication: `Bearer ${GetJWT()}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          setShowAlert(true);
+          setMensajeError(
+            `Ha surgido un error al eliminar el restaurante, por favor, inténtelo más tarde.`
+          );
+        }
+        history.push(`/restaurantes`);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -162,113 +160,129 @@ export default function Modificar({ id }) {
 
   return (
     <div className="App">
-
-      {!dataLoaded ?
-        ( <div className="screen-centered">
-            <Spinner animation="border" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </Spinner>
-          </div>
-      )
-      : (
+      {!dataLoaded ? (
+        <div className="screen-centered">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
+      ) : (
         <>
-        {(typeof backendData === "undefined" || notFound || !IsAllowed(backendData.idGestor)) ? 
-          <div className="cuerpo">
-            <Error404 />
-          </div>
-        : (<>
+          {typeof backendData === "undefined" ||
+          notFound ||
+          !IsAllowed(backendData.idGestor) ? (
+            <div className="cuerpo">
+              <Error404 />
+            </div>
+          ) : (
+            <>
+              <ImagenHeader titulo={`Modificar ${backendData.nombre}`} />
 
-        <ImagenHeader titulo={`Modificar ${backendData.nombre}`} />
+              <div className="cuerpo">
+                <h3>Detalles</h3>
 
-        <div className="cuerpo">
-          <h3>Detalles</h3>
+                <Form className="formulario">
+                  <Alert
+                    show={showAlert}
+                    variant="danger"
+                    onClose={() => setShowAlert(false)}
+                    dismissible
+                  >
+                    <Alert.Heading>Error</Alert.Heading>
+                    <p>{mensajeError}</p>
+                  </Alert>
 
-          <Form className="formulario">
-            <Alert
-              show={showAlert}
-              variant="danger"
-              onClose={() => setShowAlert(false)}
-              dismissible
-            >
-              <Alert.Heading>Error</Alert.Heading>
-              <p>{mensajeError}</p>
-            </Alert>
+                  <Form.Group className="mb-3" controlId="nombre">
+                    <Form.Control
+                      type="text"
+                      placeholder="Nombre"
+                      value={nombre}
+                      onChange={(event) => setNombre(event.target.value)}
+                      required
+                    />
+                  </Form.Group>
 
-            <Form.Group className="mb-3" controlId="nombre">
-              <Form.Control
-                type="text"
-                placeholder="Nombre"
-                value={nombre}
-                onChange={(event) => setNombre(event.target.value)}
-                required
-              />
-            </Form.Group>
+                  <Form.Group
+                    className="mb-3 mr-3"
+                    controlId="latitud"
+                    style={{ gridColumn: "1" }}
+                  >
+                    <Form.Control
+                      type="number"
+                      placeholder="Latitud"
+                      value={latitud}
+                      onChange={(event) => setLatitud(event.target.value)}
+                      required
+                    />
+                    <Form.Text className="text-muted">
+                      Utiliza el punto (.) para los decimales.
+                    </Form.Text>
+                  </Form.Group>
 
-            <Form.Group
-              className="mb-3 mr-3"
-              controlId="latitud"
-              style={{ gridColumn: "1" }}
-            >
-              <Form.Control
-                type="number"
-                placeholder="Latitud"
-                value={latitud}
-                onChange={(event) => setLatitud(event.target.value)}
-                required
-              />
-              <Form.Text className="text-muted">
-                Utiliza el punto (.) para los decimales.
-              </Form.Text>
-            </Form.Group>
+                  <Form.Group
+                    className="mb-3"
+                    controlId="longitud"
+                    style={{ gridColumn: "2" }}
+                  >
+                    <Form.Control
+                      type="number"
+                      placeholder="Longitud"
+                      value={longitud}
+                      onChange={(event) => setLongitud(event.target.value)}
+                      required
+                    />
+                    <Form.Text className="text-muted">
+                      Utiliza el punto (.) para los decimales.
+                    </Form.Text>
+                  </Form.Group>
 
-            <Form.Group
-              className="mb-3"
-              controlId="longitud"
-              style={{ gridColumn: "2" }}
-            >
-              <Form.Control
-                type="number"
-                placeholder="Longitud"
-                value={longitud}
-                onChange={(event) => setLongitud(event.target.value)}
-                required
-              />
-              <Form.Text className="text-muted">
-                Utiliza el punto (.) para los decimales.
-              </Form.Text>
-            </Form.Group>
+                  <Button
+                    variant="primary"
+                    type="submit"
+                    onClick={handleEditar}
+                  >
+                    Modificar
+                  </Button>
+                </Form>
 
-            <Button variant="primary" type="submit" onClick={handleEditar}>
-              Modificar
-            </Button>
-          </Form>
+                <div className="espacio" />
+                <TablaSitiosTuristicos
+                  sitiosTuristicos={sitiosTuristicos}
+                  editable={true}
+                  idRestaurante={id}
+                  onSeleccionadosChange={handleSitiosTuristicosUpdate}
+                />
 
+                <div className="espacio" />
+                <TablaPlatos
+                  platos={backendData.platos}
+                  idRestaurante={id}
+                  editable={true}
+                />
 
-          <div className="espacio" />
-          <TablaSitiosTuristicos
-              sitiosTuristicos={sitiosTuristicos}
-              editable={true}
-              idRestaurante={id}
-              onSeleccionadosChange={handleSitiosTuristicosUpdate}
-          />
+                <div style={{ gridColumn: 3, textAlign: "right" }}>
+                  <Button variant="danger" onClick={() => setModalShow(true)}>
+                    Eliminar
+                  </Button>
+                </div>
 
-          <div className="espacio" />
-          <TablaPlatos platos={backendData.platos} idRestaurante={id} editable={true}/>
-
-          <div style={{ gridColumn: 3, textAlign: "right" }}>
-            <Button variant="danger" onClick={() => setModalShow(true)}>Eliminar</Button>
-          </div>
-
-          <Dialogo
+                <Dialogo
                   show={modalShow}
                   onHide={() => setModalShow(false)}
-                  title = "¿Deseas continuar?"
-                  body = {<p>El restaurante será eliminado del sistema.</p>}
-                  buttons = {<Button variant="danger" onClick={handleEliminar}>Eliminar</Button>}
-              />
-
-        </div></>)})</>
+                  title="¿Deseas continuar?"
+                  body={<p>El restaurante será eliminado del sistema.</p>}
+                  buttons={
+                    <Button variant="danger" onClick={handleEliminar}>
+                      Eliminar
+                    </Button>
+                  }
+                />
+              </div>
+            </>
+          )}
+          )
+        </>
       )}
     </div>
-  )
+  );
 }
