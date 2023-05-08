@@ -3,12 +3,32 @@ import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import { GetJWT } from "../../utils/JWT";
 import { Spinner } from "react-bootstrap";
+import Buscador from "../Buscador";
 
 export default function TablaRestaurantes() {
   const [dataLoaded, setDataLoaded] = useState(false);
   const [backendData, setBackendData] = useState([]);
   const [paginaActual, setPaginaActual] = useState(1);
   const [restaurantesPorPagina] = useState(10);
+  const [restaurantesFiltrados, setRestaurantesFiltrados] = useState([]);
+  const [terminoBusqueda, setTerminoBusqueda] = useState("")
+
+  useEffect(() => {
+    console.log(terminoBusqueda)
+    if (dataLoaded) {
+      if (!terminoBusqueda || terminoBusqueda.trim() === "") {
+        setRestaurantesFiltrados(backendData.restaurantes);
+      } else {
+        const filtrados = backendData.restaurantes.filter((restaurante) => {
+          return (
+            restaurante.resumen.nombre &&
+            restaurante.resumen.nombre.toLowerCase().includes(terminoBusqueda.toLowerCase())
+          );
+        });
+        setRestaurantesFiltrados(filtrados);
+      }
+    }
+  }, [dataLoaded, backendData, terminoBusqueda]);
 
   useEffect(() => {
     fetch("/restaurantes", {
@@ -31,7 +51,7 @@ export default function TablaRestaurantes() {
     const indiceUltimoRestaurante = paginaActual * restaurantesPorPagina;
     const indicePrimerRestaurante =
       indiceUltimoRestaurante - restaurantesPorPagina;
-    const restaurantesActuales = backendData.restaurantes.slice(
+    const restaurantesActuales = restaurantesFiltrados.slice(
       indicePrimerRestaurante,
       indiceUltimoRestaurante
     );
@@ -57,7 +77,7 @@ export default function TablaRestaurantes() {
 
     for (
       let i = 1;
-      i <= Math.ceil(backendData.restaurantes.length / restaurantesPorPagina);
+      i <= Math.ceil(restaurantesFiltrados.length / restaurantesPorPagina);
       i++
     ) {
       numerosDePagina.push(i);
@@ -98,6 +118,7 @@ export default function TablaRestaurantes() {
             <p>No hay datos</p>
           ) : (
             <>
+              <Buscador handleBusqueda={setTerminoBusqueda} />
               <Table striped>
                 <thead>
                   <tr>
