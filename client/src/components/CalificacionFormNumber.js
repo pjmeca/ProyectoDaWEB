@@ -8,14 +8,13 @@ export default function CalificacionFormNumber(props) {
 
     useEffect(() => {
         const unidad = calificacion % 10;
-    
-        let primerDigito = Math.floor(calificacion / 10);
-        primerDigito = Math.max(Math.min(primerDigito, 5), 1);
-
-        setCalificacion(unidad);
-
-        if (unidad > 5 || unidad < 1) {
-            setCalificacion(primerDigito);
+        
+        if (unidad > 5) {
+          setCalificacion(5)
+        } else if (unidad < 1) {
+          setCalificacion(1)
+        } else {
+          setCalificacion(unidad);
         }
 
         props.handleCalificacion(calificacion)
