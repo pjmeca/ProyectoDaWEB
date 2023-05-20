@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import { GetJWT } from "../../utils/JWT";
-import { Spinner } from "react-bootstrap";
+import { InputGroup, Spinner } from "react-bootstrap";
 import Buscador from "../Buscador";
+import CalificacionFormNumber from "../CalificacionFormNumber";
+import { Form } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 
 export default function TablaRestaurantes() {
   const [dataLoaded, setDataLoaded] = useState(false);
@@ -12,23 +15,34 @@ export default function TablaRestaurantes() {
   const [restaurantesPorPagina] = useState(10);
   const [restaurantesFiltrados, setRestaurantesFiltrados] = useState([]);
   const [terminoBusqueda, setTerminoBusqueda] = useState("")
+  const [calificacion, setCalificacion] = useState(1)
 
   useEffect(() => {
     console.log(terminoBusqueda)
     if (dataLoaded) {
-      if (!terminoBusqueda || terminoBusqueda.trim() === "") {
-        setRestaurantesFiltrados(backendData.restaurantes);
-      } else {
-        const filtrados = backendData.restaurantes.filter((restaurante) => {
+      let filtrados = backendData.restaurantes
+
+      // Filtrar por término de búsqueda
+      if (terminoBusqueda && !(terminoBusqueda.trim() === "")) {
+        filtrados = filtrados.filter((restaurante) => {
           return (
             restaurante.resumen.nombre &&
             restaurante.resumen.nombre.toLowerCase().includes(terminoBusqueda.toLowerCase())
           );
-        });
-        setRestaurantesFiltrados(filtrados);
+        });        
       }
+
+      // Filtrar por calificación
+      filtrados = filtrados.filter((restaurante) => {
+        return(
+          restaurante.resumen.calificacionMedia &&
+          restaurante.resumen.calificacionMedia>=calificacion
+        );
+      })
+
+      setRestaurantesFiltrados(filtrados);
     }
-  }, [dataLoaded, backendData, terminoBusqueda]);
+  }, [dataLoaded, backendData, terminoBusqueda, calificacion]);
 
   useEffect(() => {
     fetch("/restaurantes", {
@@ -118,7 +132,21 @@ export default function TablaRestaurantes() {
             <p>No hay datos</p>
           ) : (
             <>
-              <Buscador handleBusqueda={setTerminoBusqueda} />
+              <Form>
+                <Row>
+                  <Col sm={7} md={7} lg={8} xl={9}>
+                    <Buscador handleBusqueda={setTerminoBusqueda} />
+                  </Col>
+                  <Col>
+                    <InputGroup>
+                      <InputGroup.Text>Más de </InputGroup.Text>       
+                      <CalificacionFormNumber handleCalificacion={setCalificacion} />
+                      <InputGroup.Text> estrellas</InputGroup.Text>
+                    </InputGroup>
+                  </Col>
+                </Row>
+              </Form>
+
               <Table striped>
                 <thead>
                   <tr>
