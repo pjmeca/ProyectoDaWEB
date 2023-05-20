@@ -5,6 +5,7 @@ import Modal from "react-bootstrap/Modal";
 import { GetJWT, GetCorreo } from "../../utils/JWT";
 import Alert from "react-bootstrap/Alert";
 import { useHistory } from "react-router";
+import CalificacionFormNumber from "../CalificacionFormNumber";
 
 export default function DialogoOpinar(props) {
   const history = useHistory();
@@ -13,19 +14,6 @@ export default function DialogoOpinar(props) {
   const [calificacion, setCalificacion] = useState(1);
   const [showAlert, setShowAlert] = useState(false);
   const [mensajeError, setMensajeError] = useState("");
-
-  useEffect(() => {
-    const unidad = calificacion % 10;
-
-    let primerDigito = Math.floor(calificacion / 10);
-    primerDigito = Math.max(Math.min(primerDigito, 5), 1);
-
-    setCalificacion(unidad);
-
-    if (unidad > 5 || unidad < 1) {
-      setCalificacion(primerDigito);
-    }
-  }, [calificacion]);
 
   const handleSave = (event) => {
     if (calificacion < 1 || calificacion > 5) {
@@ -87,15 +75,7 @@ export default function DialogoOpinar(props) {
           <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Calificacion</Form.Label>
-              <Form.Control
-                type="number"
-                min={1}
-                max={5}
-                step={1}
-                value={calificacion}
-                autoFocus
-                onChange={(event) => setCalificacion(event.target.value)}
-              />
+              <CalificacionFormNumber handleCalificacion={setCalificacion}/>
             </Form.Group>
             <Form.Group
               className="mb-3"
