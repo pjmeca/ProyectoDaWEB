@@ -13,21 +13,19 @@ export default function Buscador(props) {
   };
 
   return (
-    <Form>
-      <Form.Group>
-        <InputGroup>
-            <InputGroup.Text>
-              <FontAwesomeIcon icon={faSearch} />
-            </InputGroup.Text>
-          <FormControl
-            type="text"
-            placeholder="Buscar..."
-            className="mr-sm-2"
-            value={busqueda}
-            onChange={handleChange}
-          />
-        </InputGroup>
-      </Form.Group>
-    </Form>
+    <Form.Group>
+      <InputGroup>
+          <InputGroup.Text>
+            <FontAwesomeIcon icon={faSearch} />
+          </InputGroup.Text>
+        <FormControl
+          type="text"
+          placeholder="Buscar..."
+          className="mr-sm-2"
+          value={busqueda}
+          onChange={handleChange}
+        />
+      </InputGroup>
+    </Form.Group>
   );
 }
