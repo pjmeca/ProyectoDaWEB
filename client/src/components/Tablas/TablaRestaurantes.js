@@ -9,6 +9,7 @@ import { Form } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
 import Mapa from "../Mapa";
 import { isInArea } from "../../utils/Filtros"
+import Estrellas from "../Estrellas"
 
 export default function TablaRestaurantes() {
   const [dataLoaded, setDataLoaded] = useState(false);
@@ -91,6 +92,11 @@ export default function TablaRestaurantes() {
       <tr key={i}>
         <th>{i + indicePrimerRestaurante + 1}</th>
         <th>{restaurante.resumen.nombre}</th>
+
+        <th>
+          <Estrellas calificacion={restaurante.resumen.calificacionMedia} />
+        </th>
+
         <th>
           <Button
             variant={"primary"}
@@ -181,6 +187,7 @@ export default function TablaRestaurantes() {
                   <tr>
                     <th>#</th>
                     <th>Nombre</th>
+                    <th>Valoración media</th>
                     <th>Url</th>
                   </tr>
                 </thead>
