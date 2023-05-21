@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import { GetJWT } from "../../utils/JWT";
-import { InputGroup, Spinner } from "react-bootstrap";
+import { Accordion, InputGroup, Spinner } from "react-bootstrap";
 import Buscador from "../Buscador";
 import CalificacionFormNumber from "../CalificacionFormNumber";
 import { Form } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
+import Mapa from "../Mapa";
+import { isInArea } from "../../utils/Filtros"
 
 export default function TablaRestaurantes() {
   const [dataLoaded, setDataLoaded] = useState(false);
@@ -16,6 +18,8 @@ export default function TablaRestaurantes() {
   const [restaurantesFiltrados, setRestaurantesFiltrados] = useState([]);
   const [terminoBusqueda, setTerminoBusqueda] = useState("")
   const [calificacion, setCalificacion] = useState(1)
+  const [ubicacion, setUbicacion] = useState(null)
+  const [radio, setRadio] = useState(1)
 
   useEffect(() => {
     console.log(terminoBusqueda)
@@ -40,9 +44,17 @@ export default function TablaRestaurantes() {
         );
       })
 
+       // Filtrar por area      
+      if (ubicacion && ubicacion.latitude && ubicacion.longitude && radio>0){
+        filtrados = filtrados.filter((restaurante) => {
+          return(
+            isInArea(restaurante.resumen.latitud, restaurante.resumen.longitud, ubicacion.latitude, ubicacion.longitude, radio)
+          );
+        })
+      } 
       setRestaurantesFiltrados(filtrados);
     }
-  }, [dataLoaded, backendData, terminoBusqueda, calificacion]);
+  }, [dataLoaded, backendData, terminoBusqueda, calificacion, ubicacion, radio]);
 
   useEffect(() => {
     fetch("/restaurantes", {
@@ -61,6 +73,11 @@ export default function TablaRestaurantes() {
       });
   }, []);
 
+  function handleMapaChange(ubicacion, radio) {
+    setUbicacion(ubicacion)
+    setRadio(radio)
+  }
+
   function ContenidoTabla() {
     const indiceUltimoRestaurante = paginaActual * restaurantesPorPagina;
     const indicePrimerRestaurante =
@@ -76,7 +93,7 @@ export default function TablaRestaurantes() {
         <th>{restaurante.resumen.nombre}</th>
         <th>
           <Button
-            variant="primary"
+            variant={"primary"}
             href={"/restaurantes/" + restaurante.url.split("/").pop()}
           >
             Ir
@@ -141,10 +158,22 @@ export default function TablaRestaurantes() {
                     <InputGroup>
                       <InputGroup.Text>Más de </InputGroup.Text>       
                       <CalificacionFormNumber handleCalificacion={setCalificacion} />
-                      <InputGroup.Text> estrellas</InputGroup.Text>
+                      <InputGroup.Text> estrellas</InputGroup.Text>                      
                     </InputGroup>
                   </Col>
                 </Row>
+                <div className="pt-2" />
+                <Row>
+                  <Accordion>
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header>Mapa</Accordion.Header>
+                      <Accordion.Body>
+                        <Mapa handleChange={handleMapaChange} />
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                </Row>
+                <div className="pt-2" />
               </Form>
 
               <Table striped>
