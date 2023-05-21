@@ -4,35 +4,37 @@ import { Col, Form, Row } from "react-bootstrap";
 import { InputGroup } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 
-function Mapa({handleChange}) {
+function Mapa({ handleChange }) {
   const [pinLocation, setPinLocation] = useState(null);
   const [radio, setRadio] = useState(1);
 
   useEffect(() => {
     if (radio <= 0) {
-      setRadio(0.1)
-    } 
+      setRadio(0.1);
+    }
   }, [radio]);
 
   useEffect(() => {
-    handleChange(pinLocation, radio)
+    handleChange(pinLocation, radio);
   }, [pinLocation, radio]);
 
   return (
     <div style={{ height: "400px", width: "100%" }}>
       <Row>
         <InputGroup>
-        <InputGroup.Text>Latitud:</InputGroup.Text>
+          <InputGroup.Text>Latitud:</InputGroup.Text>
           <Form.Control
             type="number"
             step={0.01}
             value={pinLocation ? pinLocation.latitude : ""}
             placeholder="Introduce la latitud"
             autoFocus
-            onChange={(event) => setPinLocation((oldPinLocation) => ({
-              ...oldPinLocation,
-              latitude: event.target.value
-            }))}
+            onChange={(event) =>
+              setPinLocation((oldPinLocation) => ({
+                ...oldPinLocation,
+                latitude: event.target.value,
+              }))
+            }
           />
           <InputGroup.Text>Longitud:</InputGroup.Text>
           <Form.Control
@@ -41,10 +43,12 @@ function Mapa({handleChange}) {
             value={pinLocation ? pinLocation.longitude : ""}
             placeholder="Introduce la longitud"
             autoFocus
-            onChange={(event) => setPinLocation((oldPinLocation) => ({
-              ...oldPinLocation,
-              longitude: event.target.value
-            }))}
+            onChange={(event) =>
+              setPinLocation((oldPinLocation) => ({
+                ...oldPinLocation,
+                longitude: event.target.value,
+              }))
+            }
           />
           <InputGroup.Text>Radio:</InputGroup.Text>
           <Form.Control

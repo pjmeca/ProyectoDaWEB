@@ -8,8 +8,8 @@ import CalificacionFormNumber from "../CalificacionFormNumber";
 import { Form } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
 import Mapa from "../Mapa";
-import { isInArea } from "../../utils/Filtros"
-import Estrellas from "../Estrellas"
+import { isInArea } from "../../utils/Filtros";
+import Estrellas from "../Estrellas";
 
 export default function TablaRestaurantes() {
   const [dataLoaded, setDataLoaded] = useState(false);
@@ -17,45 +17,58 @@ export default function TablaRestaurantes() {
   const [paginaActual, setPaginaActual] = useState(1);
   const [restaurantesPorPagina] = useState(10);
   const [restaurantesFiltrados, setRestaurantesFiltrados] = useState([]);
-  const [terminoBusqueda, setTerminoBusqueda] = useState("")
-  const [calificacion, setCalificacion] = useState(1)
-  const [ubicacion, setUbicacion] = useState(null)
-  const [radio, setRadio] = useState(1)
+  const [terminoBusqueda, setTerminoBusqueda] = useState("");
+  const [calificacion, setCalificacion] = useState(1);
+  const [ubicacion, setUbicacion] = useState(null);
+  const [radio, setRadio] = useState(1);
 
   useEffect(() => {
-    console.log(terminoBusqueda)
+    console.log(terminoBusqueda);
     if (dataLoaded) {
-      let filtrados = backendData.restaurantes
+      let filtrados = backendData.restaurantes;
 
       // Filtrar por término de búsqueda
       if (terminoBusqueda && !(terminoBusqueda.trim() === "")) {
         filtrados = filtrados.filter((restaurante) => {
           return (
             restaurante.resumen.nombre &&
-            restaurante.resumen.nombre.toLowerCase().includes(terminoBusqueda.toLowerCase())
+            restaurante.resumen.nombre
+              .toLowerCase()
+              .includes(terminoBusqueda.toLowerCase())
           );
-        });        
+        });
       }
 
       // Filtrar por calificación
       filtrados = filtrados.filter((restaurante) => {
-        return(
+        return (
           restaurante.resumen.calificacionMedia &&
-          restaurante.resumen.calificacionMedia>=calificacion
+          restaurante.resumen.calificacionMedia >= calificacion
         );
-      })
+      });
 
-       // Filtrar por area      
-      if (ubicacion && ubicacion.latitude && ubicacion.longitude && radio>0){
+      // Filtrar por area
+      if (ubicacion && ubicacion.latitude && ubicacion.longitude && radio > 0) {
         filtrados = filtrados.filter((restaurante) => {
-          return(
-            isInArea(restaurante.resumen.latitud, restaurante.resumen.longitud, ubicacion.latitude, ubicacion.longitude, radio)
+          return isInArea(
+            restaurante.resumen.latitud,
+            restaurante.resumen.longitud,
+            ubicacion.latitude,
+            ubicacion.longitude,
+            radio
           );
-        })
-      } 
+        });
+      }
       setRestaurantesFiltrados(filtrados);
     }
-  }, [dataLoaded, backendData, terminoBusqueda, calificacion, ubicacion, radio]);
+  }, [
+    dataLoaded,
+    backendData,
+    terminoBusqueda,
+    calificacion,
+    ubicacion,
+    radio,
+  ]);
 
   useEffect(() => {
     fetch("/restaurantes", {
@@ -75,8 +88,8 @@ export default function TablaRestaurantes() {
   }, []);
 
   function handleMapaChange(ubicacion, radio) {
-    setUbicacion(ubicacion)
-    setRadio(radio)
+    setUbicacion(ubicacion);
+    setRadio(radio);
   }
 
   function ContenidoTabla() {
@@ -162,9 +175,11 @@ export default function TablaRestaurantes() {
                   </Col>
                   <Col>
                     <InputGroup>
-                      <InputGroup.Text>Más de </InputGroup.Text>       
-                      <CalificacionFormNumber handleCalificacion={setCalificacion} />
-                      <InputGroup.Text> estrellas</InputGroup.Text>                      
+                      <InputGroup.Text>Más de </InputGroup.Text>
+                      <CalificacionFormNumber
+                        handleCalificacion={setCalificacion}
+                      />
+                      <InputGroup.Text> estrellas</InputGroup.Text>
                     </InputGroup>
                   </Col>
                 </Row>
