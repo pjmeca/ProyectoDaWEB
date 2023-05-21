@@ -15,7 +15,7 @@ export default function App() {
           <>
             {IsGestor() ? (
               <>
-                <Button variant="primary" href="./crear">
+                <Button variant="primary" href="./crear" style={{width: "100%"}}>
                   Crear
                 </Button>
                 <div className="espacio"></div>
