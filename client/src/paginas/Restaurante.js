@@ -95,7 +95,7 @@ export default function Restaurante({ id }) {
                     {IsAllowed(backendData.idGestor) ? (
                       <div>
                         <Button
-                          className={"primario"}
+                          variant={"primary"}
                           onClick={() => {
                             history.push(`/restaurantes/${id}/modificar`);
                           }}

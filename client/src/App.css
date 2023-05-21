@@ -1,7 +1,8 @@
 :root {
   --cPrim: rgb(171, 42, 62);
-  --cPrimDark: rgb(151,22,42);
-
+  --cPrimDark: rgb(151, 22, 22);
+  --cPrimLight: rgb(199, 65, 65);
+  --cPrimFocus: rgba(165, 45, 45, 0.586);
 }
 
 
@@ -166,4 +167,43 @@ th {
 
 .seleccionable:hover {
   cursor: pointer;
+}
+
+.react-bingmaps {
+  height: 90% !important;
+}
+
+.btn.btn-primary {
+  background-color: var(--cPrim) !important;
+  border-color: var(--cPrim) !important;
+}
+
+.page-link {
+  color: gray !important;
+}
+
+.page-link.active {
+  background-color: var(--cPrim) !important;
+  border-color: var(--cPrim) !important;
+  color: white !important;
+}
+
+.btn.btn-primary:hover {
+  background-color: var(--cPrimLight) !important;
+  border-color: var(--cPrimDark) !important;
+}
+
+.btn.btn-primary:focus {
+  box-shadow: 0 0 0 0.25rem var(--cPrimFocus) !important;
+}
+
+.btn.btn-primary:active {
+  background-color: var(--cPrimDark) !important;
+  border-color: var(--cPrimDark) !important;
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125) !important;
+}
+
+.btn.btn-primary:disabled {
+  background-color: #0d6efd !important;
+  border-color: #0d6efd !important;
 }
