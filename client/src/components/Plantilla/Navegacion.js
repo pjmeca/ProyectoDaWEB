@@ -24,7 +24,6 @@ export default function Navegacion() {
             ) : (
               <Nav.Link onClick={handleCerrarSesion}>Cerrar sesión</Nav.Link>
             )}
-            <Nav.Link href="">Acerca de</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
