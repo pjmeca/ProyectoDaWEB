@@ -132,7 +132,7 @@ export default function DialogoPlatos({ show, idRestaurante, onHide, plato }) {
               />
             </Form.Group>
 
-            <Form.Check // prettier-ignore
+            <Form.Check
               type="switch"
               id="custom-switch"
               label={disponible ? "Disponible" : "No disponible"}
