@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "react-bootstrap";
 import DialogoPlatos from "../Dialogos/DialogoPlatos";
 import Dialogo from "../Dialogos/Dialogo";
-import { GetJWT, GetCorreo } from "../../utils/JWT";
+import { GetJWT, GetCorreo, GetSub } from "../../utils/JWT";
 import { Form } from "react-bootstrap";
 import { Alert } from "react-bootstrap";
 
@@ -125,6 +125,7 @@ export default function TablaPlatos({
       nombre: platoActual.nombre,
       comentario: comentarioIncidencia,
       correo: GetCorreo(),
+      sub: GetSub(),
     };
 
     console.log("Nueva incidencia");

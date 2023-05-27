@@ -18,6 +18,11 @@ export function IsLogin() {
   return Cookies.get("jwt") != undefined;
 }
 
+export function GetSub() {
+  const decoded = jwt_decode(GetJWT());
+  return decoded.sub;
+}
+
 export function GetCorreo() {
   const decoded = jwt_decode(GetJWT());
   return decoded.usuario;

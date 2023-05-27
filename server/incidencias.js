@@ -28,8 +28,8 @@ function getIncidencias(req, res) {
   let idRestaurante = req.query.idRestaurante;
 
   let query = idRestaurante
-    ? `SELECT idRestaurante, nombre, comentario, correo, fechaHora FROM incidencias WHERE idRestaurante="${idRestaurante}" ORDER BY fechaHora DESC`
-    : `SELECT idRestaurante, nombre, comentario, correo, fechaHora FROM incidencias ORDER BY fechaHora DESC`;
+    ? `SELECT idRestaurante, nombre, comentario, correo, sub, fechaHora FROM incidencias WHERE idRestaurante="${idRestaurante}" ORDER BY fechaHora DESC`
+    : `SELECT idRestaurante, nombre, comentario, correo, sub, fechaHora FROM incidencias ORDER BY fechaHora DESC`;
 
   conexion.query(query, (err, filas) => {
     if (err) {
@@ -44,6 +44,7 @@ function getIncidencias(req, res) {
         nombre: filas[i].nombre,
         comentario: filas[i].comentario,
         correo: filas[i].correo,
+        sub: filas[i].sub,
         fechaHora: filas[i].fechaHora,
       };
       incidencias.push(incidencia);
@@ -61,6 +62,7 @@ function postIncidencia(req, res) {
     nombre: req.body.nombre,
     comentario: req.body.comentario,
     correo: req.body.correo,
+    sub: req.body.sub,
     fechaHora: new Date(),
   };
 

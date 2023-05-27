@@ -54,8 +54,8 @@ export default function TablaIncidencias({ idRestaurante }) {
       <ListGroup.Item key={i} style={{ textAlign: "left" }}>
         <div className="row">
           <div className="col-11">
-            Sobre <strong>{incidencia.nombre}</strong> en{" "}
-            {incidencia.fechaHora.split("T")[0]}
+            <strong>{incidencia.sub}</strong> escribió sobre <strong>{incidencia.nombre}</strong> en{" "}
+            {incidencia.fechaHora.split("T")[0]}:
             <br />
             {incidencia.comentario}
           </div>
