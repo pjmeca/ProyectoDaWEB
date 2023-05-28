@@ -12,6 +12,7 @@ import FormGroup from "react-bootstrap/esm/FormGroup";
 import Form from "react-bootstrap/Form";
 import { Spinner } from "react-bootstrap";
 import Error404 from "../components/Error404";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Modificar({ id }) {
   const history = useHistory();
@@ -179,6 +180,13 @@ export default function Modificar({ id }) {
               <ImagenHeader titulo={`Modificar ${backendData.nombre}`} />
 
               <div className="cuerpo">
+
+                <div className="inline-l">
+                  <Button variant="primary" onClick={() => {history.push(`/restaurantes/${id}`)}}>
+                    <FontAwesomeIcon icon="fa-solid fa-arrow-left" /> Atrás
+                  </Button>
+                </div>                
+
                 <h3>Detalles</h3>
 
                 <Form className="formulario">

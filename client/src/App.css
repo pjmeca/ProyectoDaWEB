@@ -149,6 +149,10 @@ button.incidencia:hover {
   text-align: right;
 }
 
+.inline-l {
+  text-align: left;
+}
+
 th {
   vertical-align: middle;
 }

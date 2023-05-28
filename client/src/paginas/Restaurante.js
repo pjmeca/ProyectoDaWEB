@@ -11,6 +11,7 @@ import { useHistory } from "react-router-dom";
 import { GetJWT, IsAllowed } from "../utils/JWT";
 import { Spinner } from "react-bootstrap";
 import Error404 from "../components/Error404";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Restaurante({ id }) {
   const [dataLoaded, setDataLoaded] = useState(false);
@@ -61,6 +62,13 @@ export default function Restaurante({ id }) {
               <ImagenHeader titulo={backendData.nombre} />
 
               <div className="cuerpo">
+
+                <div className="inline-l">
+                  <Button variant="primary" onClick={() => {history.push(`/restaurantes`)}}>
+                    <FontAwesomeIcon icon="fa-solid fa-arrow-left" /> Atrás
+                  </Button>
+                </div>   
+
                 <Alert
                   show={showAlert}
                   variant="danger"
